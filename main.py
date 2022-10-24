@@ -1,5 +1,6 @@
 import time
 import argparse
+import json
 import pandas as pd
 
 from src import seed_everything
@@ -116,6 +117,7 @@ if __name__ == "__main__":
     arg('--DATA_SHUFFLE', type=bool, default=True, help='데이터 셔플 여부를 조정할 수 있습니다.')
     arg('--TEST_SIZE', type=float, default=0.2, help='Train/Valid split 비율을 조정할 수 있습니다.')
     arg('--SEED', type=int, default=42, help='seed 값을 조정할 수 있습니다.')
+    arg('-c','--config',default=None, type=str, help='지정된 경로의 JSON파일에서 설정값을 가져와 사용합니다.')
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
@@ -162,4 +164,12 @@ if __name__ == "__main__":
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
     args = parser.parse_args()
+
+    if args.config:
+        # config 파일에서 인자 값들을 읽어온다.
+        with open(args.config, 'rt') as f:
+            t_args = argparse.Namespace()
+            t_args.__dict__.update(json.load(f))
+            args = parser.parse_args(namespace=t_args)
+    print(args.FM_EMBED_DIM)
     main(args)
