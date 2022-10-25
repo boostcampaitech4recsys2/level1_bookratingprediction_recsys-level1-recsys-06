@@ -37,7 +37,8 @@ class FactorizationMachineModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
-        wandb.init()
+        wandb.init(project='level1_bookratingprediction_recsys-level1-recsys-06', entity='thumbs-up')
+        wandb.run.name = self.args.Wandb_name # 프로젝트 이름 설정부분, config 파일 맨 밑에 넣어놓음.
         wandb.config.update({
             "batch_size" : self.args.BATCH_SIZE,
             "epochs": self.args.EPOCHS,

@@ -7,7 +7,7 @@
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
-    "EPOCHS": 1,
+    "EPOCHS": 10,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
@@ -38,5 +38,7 @@
     "DEEPCONN_CONV_1D_OUT_DIM": 50,
     "DEEPCONN_KERNEL_SIZE": 3,
     "DEEPCONN_WORD_DIM": 768,
-    "DEEPCONN_OUT_DIM": 32
+    "DEEPCONN_OUT_DIM": 32,
+
+    "Wandb_name" : "KSY_my_DataProcessing_FM2_epoch10"
 }
