@@ -1,0 +1,12 @@
+
+--------------- FM Load Data ---------------
+--------------- FM Train/Valid Split ---------------
+--------------- INIT FM ---------------
+Traceback (most recent call last):
+  File "main.py", line 175, in <module>
+    main(args)
+  File "main.py", line 83, in main
+    wandb.watch(model)
+  File "/opt/conda/lib/python3.8/site-packages/wandb/sdk/wandb_watch.py", line 71, in watch
+    raise ValueError(
+ValueError: Expected a pytorch model (torch.nn.Module). Received <class 'src.models.context_models.FactorizationMachineModel'>

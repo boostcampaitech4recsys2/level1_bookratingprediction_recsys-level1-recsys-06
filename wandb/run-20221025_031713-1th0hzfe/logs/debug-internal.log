@@ -1,0 +1,147 @@
+2022-10-25 03:17:13,552 INFO    StreamThr :14229 [internal.py:wandb_internal():88] W&B internal server running at pid: 14229, started at: 2022-10-25 03:17:13.551594
+2022-10-25 03:17:13,558 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: status
+2022-10-25 03:17:13,558 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: status
+2022-10-25 03:17:13,560 DEBUG   SenderThread:14229 [sender.py:send():303] send: header
+2022-10-25 03:17:13,560 INFO    WriterThread:14229 [datastore.py:open_for_write():75] open: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/run-1th0hzfe.wandb
+2022-10-25 03:17:13,594 DEBUG   SenderThread:14229 [sender.py:send():303] send: run
+2022-10-25 03:17:14,089 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: check_version
+2022-10-25 03:17:14,090 INFO    SenderThread:14229 [dir_watcher.py:__init__():216] watching files in: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files
+2022-10-25 03:17:14,090 INFO    SenderThread:14229 [sender.py:_start_run_threads():928] run started: 1th0hzfe with start time 1666667833.543415
+2022-10-25 03:17:14,090 DEBUG   SenderThread:14229 [sender.py:send():303] send: summary
+2022-10-25 03:17:14,091 INFO    SenderThread:14229 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-10-25 03:17:14,091 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: check_version
+2022-10-25 03:17:14,149 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: run_start
+2022-10-25 03:17:14,153 DEBUG   HandlerThread:14229 [meta.py:__init__():34] meta init
+2022-10-25 03:17:14,153 DEBUG   HandlerThread:14229 [meta.py:__init__():49] meta init done
+2022-10-25 03:17:14,153 DEBUG   HandlerThread:14229 [meta.py:probe():215] probe
+2022-10-25 03:17:14,160 DEBUG   HandlerThread:14229 [meta.py:_setup_git():205] setup git
+2022-10-25 03:17:14,177 DEBUG   HandlerThread:14229 [meta.py:_setup_git():212] setup git done
+2022-10-25 03:17:14,178 DEBUG   HandlerThread:14229 [meta.py:_save_pip():53] save pip
+2022-10-25 03:17:14,178 DEBUG   HandlerThread:14229 [meta.py:_save_pip():67] save pip done
+2022-10-25 03:17:14,178 DEBUG   HandlerThread:14229 [meta.py:_save_conda():74] save conda
+2022-10-25 03:17:15,092 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_created():275] file/dir created: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-summary.json
+2022-10-25 03:17:15,093 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_created():275] file/dir created: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/requirements.txt
+2022-10-25 03:17:15,093 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_created():275] file/dir created: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/conda-environment.yaml
+2022-10-25 03:17:17,060 DEBUG   HandlerThread:14229 [meta.py:_save_conda():84] save conda done
+2022-10-25 03:17:17,060 DEBUG   HandlerThread:14229 [meta.py:probe():253] probe done
+2022-10-25 03:17:17,066 DEBUG   SenderThread:14229 [sender.py:send():303] send: files
+2022-10-25 03:17:17,067 INFO    SenderThread:14229 [sender.py:_save_file():1171] saving file wandb-metadata.json with policy now
+2022-10-25 03:17:17,074 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: stop_status
+2022-10-25 03:17:17,074 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: stop_status
+2022-10-25 03:17:17,092 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_created():275] file/dir created: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-metadata.json
+2022-10-25 03:17:17,285 DEBUG   SenderThread:14229 [sender.py:send():303] send: telemetry
+2022-10-25 03:17:17,286 DEBUG   SenderThread:14229 [sender.py:send():303] send: config
+2022-10-25 03:17:17,771 INFO    Thread-17 :14229 [upload_job.py:push():143] Uploaded file /tmp/tmprwx25endwandb/2a5yrz5a-wandb-metadata.json
+2022-10-25 03:17:18,092 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_created():275] file/dir created: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:20,094 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:22,095 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:22,139 DEBUG   SenderThread:14229 [sender.py:send():303] send: exit
+2022-10-25 03:17:22,139 INFO    SenderThread:14229 [sender.py:send_exit():442] handling exit code: 0
+2022-10-25 03:17:22,139 INFO    SenderThread:14229 [sender.py:send_exit():444] handling runtime: 7
+2022-10-25 03:17:22,140 INFO    SenderThread:14229 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-10-25 03:17:22,140 INFO    SenderThread:14229 [sender.py:send_exit():450] send defer
+2022-10-25 03:17:22,141 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,141 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 0
+2022-10-25 03:17:22,141 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,141 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 0
+2022-10-25 03:17:22,141 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 1
+2022-10-25 03:17:22,141 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,141 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 1
+2022-10-25 03:17:22,203 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,203 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 1
+2022-10-25 03:17:22,203 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 2
+2022-10-25 03:17:22,204 DEBUG   SenderThread:14229 [sender.py:send():303] send: stats
+2022-10-25 03:17:22,204 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,204 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 2
+2022-10-25 03:17:22,205 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,205 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 2
+2022-10-25 03:17:22,205 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 3
+2022-10-25 03:17:22,205 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,205 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 3
+2022-10-25 03:17:22,205 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,205 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 3
+2022-10-25 03:17:22,205 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 4
+2022-10-25 03:17:22,206 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,206 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 4
+2022-10-25 03:17:22,206 DEBUG   SenderThread:14229 [sender.py:send():303] send: summary
+2022-10-25 03:17:22,206 INFO    SenderThread:14229 [sender.py:_save_file():1171] saving file wandb-summary.json with policy end
+2022-10-25 03:17:22,207 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,207 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 4
+2022-10-25 03:17:22,207 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 5
+2022-10-25 03:17:22,208 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,208 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 5
+2022-10-25 03:17:22,208 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,208 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 5
+2022-10-25 03:17:22,447 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 6
+2022-10-25 03:17:22,448 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:22,448 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 6
+2022-10-25 03:17:22,448 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:22,448 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 6
+2022-10-25 03:17:23,096 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-summary.json
+2022-10-25 03:17:23,096 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/config.yaml
+2022-10-25 03:17:23,140 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: poll_exit
+2022-10-25 03:17:24,096 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:25,230 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 7
+2022-10-25 03:17:25,230 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: poll_exit
+2022-10-25 03:17:25,231 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:25,232 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 7
+2022-10-25 03:17:25,232 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:25,232 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 7
+2022-10-25 03:17:25,232 INFO    SenderThread:14229 [dir_watcher.py:finish():362] shutting down directory watcher
+2022-10-25 03:17:26,097 INFO    Thread-13 :14229 [dir_watcher.py:_on_file_modified():292] file/dir modified: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:26,099 INFO    SenderThread:14229 [dir_watcher.py:finish():392] scan: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files
+2022-10-25 03:17:26,099 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log output.log
+2022-10-25 03:17:26,099 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-metadata.json wandb-metadata.json
+2022-10-25 03:17:26,100 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/requirements.txt requirements.txt
+2022-10-25 03:17:26,105 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/config.yaml config.yaml
+2022-10-25 03:17:26,111 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/conda-environment.yaml conda-environment.yaml
+2022-10-25 03:17:26,111 INFO    SenderThread:14229 [dir_watcher.py:finish():406] scan save: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-summary.json wandb-summary.json
+2022-10-25 03:17:26,111 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 8
+2022-10-25 03:17:26,113 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:26,113 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 8
+2022-10-25 03:17:26,125 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:26,126 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 8
+2022-10-25 03:17:26,126 INFO    SenderThread:14229 [file_pusher.py:finish():168] shutting down file pusher
+2022-10-25 03:17:26,799 INFO    Thread-18 :14229 [upload_job.py:push():143] Uploaded file /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/output.log
+2022-10-25 03:17:26,853 INFO    Thread-19 :14229 [upload_job.py:push():143] Uploaded file /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/requirements.txt
+2022-10-25 03:17:26,900 INFO    Thread-21 :14229 [upload_job.py:push():143] Uploaded file /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/wandb-summary.json
+2022-10-25 03:17:26,905 INFO    Thread-20 :14229 [upload_job.py:push():143] Uploaded file /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/files/config.yaml
+2022-10-25 03:17:27,106 INFO    Thread-12 :14229 [sender.py:transition_state():463] send defer: 9
+2022-10-25 03:17:27,108 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:27,108 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 9
+2022-10-25 03:17:27,109 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:27,109 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 9
+2022-10-25 03:17:27,109 INFO    SenderThread:14229 [file_pusher.py:join():173] waiting for file pusher
+2022-10-25 03:17:27,109 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 10
+2022-10-25 03:17:27,110 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:27,110 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 10
+2022-10-25 03:17:27,110 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:27,111 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 10
+2022-10-25 03:17:27,329 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 11
+2022-10-25 03:17:27,330 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:27,330 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 11
+2022-10-25 03:17:27,330 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:27,330 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 11
+2022-10-25 03:17:27,330 INFO    SenderThread:14229 [sender.py:transition_state():463] send defer: 12
+2022-10-25 03:17:27,331 DEBUG   SenderThread:14229 [sender.py:send():303] send: final
+2022-10-25 03:17:27,331 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: defer
+2022-10-25 03:17:27,331 INFO    HandlerThread:14229 [handler.py:handle_request_defer():161] handle defer: 12
+2022-10-25 03:17:27,331 DEBUG   SenderThread:14229 [sender.py:send():303] send: footer
+2022-10-25 03:17:27,332 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: defer
+2022-10-25 03:17:27,332 INFO    SenderThread:14229 [sender.py:send_request_defer():459] handle sender defer: 12
+2022-10-25 03:17:27,333 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: poll_exit
+2022-10-25 03:17:27,333 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: poll_exit
+2022-10-25 03:17:27,334 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: server_info
+2022-10-25 03:17:27,335 DEBUG   SenderThread:14229 [sender.py:send_request():317] send_request: server_info
+2022-10-25 03:17:27,338 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: get_summary
+2022-10-25 03:17:27,339 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: sampled_history
+2022-10-25 03:17:27,739 INFO    MainThread:14229 [wandb_run.py:_footer_history_summary_info():3377] rendering history
+2022-10-25 03:17:27,740 INFO    MainThread:14229 [wandb_run.py:_footer_history_summary_info():3409] rendering summary
+2022-10-25 03:17:27,740 INFO    MainThread:14229 [wandb_run.py:_footer_sync_info():3333] logging synced files
+2022-10-25 03:17:27,741 DEBUG   HandlerThread:14229 [handler.py:handle_request():138] handle_request: shutdown
+2022-10-25 03:17:27,741 INFO    HandlerThread:14229 [handler.py:finish():814] shutting down handler
+2022-10-25 03:17:28,331 INFO    WriterThread:14229 [datastore.py:close():279] close: /opt/ml/level1_bookratingprediction_recsys-level1-recsys-06/wandb/run-20221025_031713-1th0hzfe/run-1th0hzfe.wandb
+2022-10-25 03:17:28,739 INFO    SenderThread:14229 [sender.py:finish():1331] shutting down sender
+2022-10-25 03:17:28,739 INFO    SenderThread:14229 [file_pusher.py:finish():168] shutting down file pusher
+2022-10-25 03:17:28,739 INFO    SenderThread:14229 [file_pusher.py:join():173] waiting for file pusher
+2022-10-25 03:17:28,744 INFO    MainThread:14229 [internal.py:handle_exit():78] Internal process exited
