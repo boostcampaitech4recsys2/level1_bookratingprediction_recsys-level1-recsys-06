@@ -1,5 +1,6 @@
 import time
 import argparse
+import json
 import pandas as pd
 
 from src import seed_everything
@@ -14,10 +15,11 @@ from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetwork
 from src import CNN_FM
 from src import DeepCoNN
 
+import wandb
 
 def main(args):
     seed_everything(args.SEED)
-
+    
     ######################## DATA LOAD
     print(f'--------------- {args.MODEL} Load Data ---------------')
     if args.MODEL in ('FM', 'FFM'):
@@ -116,10 +118,11 @@ if __name__ == "__main__":
     arg('--DATA_SHUFFLE', type=bool, default=True, help='데이터 셔플 여부를 조정할 수 있습니다.')
     arg('--TEST_SIZE', type=float, default=0.2, help='Train/Valid split 비율을 조정할 수 있습니다.')
     arg('--SEED', type=int, default=42, help='seed 값을 조정할 수 있습니다.')
+    arg('-c','--config',default=None, type=str, help='지정된 경로의 JSON파일에서 설정값을 가져와 사용합니다.')
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
-    arg('--EPOCHS', type=int, default=10, help='Epoch 수를 조정할 수 있습니다.')
+    arg('--EPOCHS', type=int, default=20, help='Epoch 수를 조정할 수 있습니다.')
     arg('--LR', type=float, default=1e-3, help='Learning Rate를 조정할 수 있습니다.')
     arg('--WEIGHT_DECAY', type=float, default=1e-6, help='Adam optimizer에서 정규화에 사용하는 값을 조정할 수 있습니다.')
 
