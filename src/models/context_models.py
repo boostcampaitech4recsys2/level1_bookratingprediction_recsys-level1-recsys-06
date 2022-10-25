@@ -9,6 +9,7 @@ import torch.optim as optim
 from ._models import _FactorizationMachineModel, _FieldAwareFactorizationMachineModel
 from ._models import rmse, RMSELoss
 
+import wandb
 
 class FactorizationMachineModel:
 
@@ -26,7 +27,8 @@ class FactorizationMachineModel:
         self.learning_rate = args.LR
         self.weight_decay = args.WEIGHT_DECAY
         self.log_interval = 100
-
+        self.args = args
+        
         self.device = args.DEVICE
 
         self.model = _FactorizationMachineModel(self.field_dims, self.embed_dim).to(self.device)
@@ -35,6 +37,12 @@ class FactorizationMachineModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        wandb.init()
+        wandb.config.update({
+            "batch_size" : self.args.BATCH_SIZE,
+            "epochs": self.args.EPOCHS,
+            # "optimizer": self.args.optimizer
+        })
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -55,7 +63,15 @@ class FactorizationMachineModel:
 
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
-
+            
+            wandb.log({
+            'rmse_score' : rmse_score
+            # 'train_acc' : train_acc,
+            # 'train_roc_auc' : train_roc_auc,
+            # 'valid_loss' : valid_loss,
+            # 'valid_acc' : valid_acc,
+            # 'valid_roc_auc' : valid_roc_auc,
+            })
 
 
     def predict_train(self):

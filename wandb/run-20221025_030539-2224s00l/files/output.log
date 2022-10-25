@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "main.py", line 177, in <module>
+    wandb.watch(args.MODEL)
+  File "/opt/conda/lib/python3.8/site-packages/wandb/sdk/wandb_watch.py", line 71, in watch
+    raise ValueError(
+ValueError: Expected a pytorch model (torch.nn.Module). Received <class 'str'>
