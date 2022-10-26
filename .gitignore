@@ -105,6 +105,7 @@ input/
 saved/
 datasets/
 wandb/
+images/
 
 # editor, os cache directory
 .vscode/
