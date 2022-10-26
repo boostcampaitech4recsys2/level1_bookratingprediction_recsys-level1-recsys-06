@@ -121,6 +121,9 @@ def context_data_load(args):
     field_dims = np.array([len(user2idx), len(isbn2idx),
                             6, len(idx['loc_city2idx']), len(idx['loc_state2idx']), len(idx['loc_country2idx']),
                             len(idx['category2idx']), len(idx['publisher2idx']), len(idx['language2idx']), len(idx['author2idx'])], dtype=np.uint32)
+    
+    test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
+    test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
     data = {
             'train':context_train,
@@ -133,6 +136,7 @@ def context_data_load(args):
             'idx2isbn':idx2isbn,
             'user2idx':user2idx,
             'isbn2idx':isbn2idx,
+            'test_dataloader': test_dataloader
             }
 
 
@@ -149,6 +153,7 @@ def context_data_split(args, data):
                                                         )
     data['X_train'], data['X_valid'], data['y_train'], data['y_valid'] = X_train, X_valid, y_train, y_valid
     return data
+
 
 # 데이터 로더
 def context_data_loader(args, data):

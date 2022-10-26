@@ -8,8 +8,10 @@ import torch.optim as optim
 
 from ._models import _FactorizationMachineModel, _FieldAwareFactorizationMachineModel
 from ._models import rmse, RMSELoss
+from sklearn.model_selection import KFold
 
 import wandb
+
 
 class FactorizationMachineModel:
 
@@ -47,6 +49,7 @@ class FactorizationMachineModel:
             self.model.train()
             total_loss = 0
             tk0 = tqdm.tqdm(self.train_dataloader, smoothing=0, mininterval=1.0)
+            
             for i, (fields, target) in enumerate(tk0):
                 self.model.zero_grad()
                 fields, target = fields.to(self.device), target.to(self.device)
@@ -73,6 +76,38 @@ class FactorizationMachineModel:
             # 'valid_roc_auc' : valid_roc_auc,
             })
 
+    def kfold_train(self):
+      # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        kfold = KFold(n_splits = 10, random_state = args.SEED)
+        
+        for fold, (train_idx, val_idx) in enumerate(kfold.split(data)):
+            train_sampler = torch.utils.data.SubsetRandomSampler(train_idx)
+            val_subsampler = torch.utils.data.SubsetRandomSampler(val_idx)
+            
+            trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, sampler=train_subsampler) # 해당하는 index 추출
+            valloader = torch.utils.data.DataLoader(trainset, batch_size=32, sampler=val_subsampler)
+            
+            for epoch in range(self.epochs):
+                # model이 훈련하고 있음을 모델에 알림 -> 이는 훈련 및 평가 중에 다르게 동작하도록 설계된 Dropout 및 BatchNorm과 같은 계층에 정보 제공
+                self.model.train()
+                total_loss = 0
+                tk0 = tqdm.tqdm(self.train_dataloader, smoothing=0, mininterval=1.0)
+                
+                for i, (fields, target) in enumerate(tk0):
+                    fields, target = fields.to(self.device), target.to(self.device)
+                    y = self.model(fields)
+                    loss = self.criterion(y, target.float())
+                    self.model.zero_grad()
+                    loss.backward()
+                    self.optimizer.step()
+                    total_loss += loss.item()
+                    if (i + 1) % self.log_interval == 0:
+                        tk0.set_postfix(loss=total_loss / self.log_interval)
+                        total_loss = 0
+
+            rmse_score = self.predict_train()
+            print('epoch:', epoch, 'validation: rmse:', rmse_score)
+            
     # rmse 계산
     def predict_train(self):
         self.model.eval()
@@ -124,9 +159,11 @@ class FieldAwareFactorizationMachineModel:
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
         for epoch in range(self.epochs):
+            # model이 훈련하고 있음을 모델에 알림 -> 이는 훈련 및 평가 중에 다르게 동작하도록 설계된 Dropout 및 BatchNorm과 같은 계층에 정보 제공
             self.model.train()
             total_loss = 0
             tk0 = tqdm.tqdm(self.train_dataloader, smoothing=0, mininterval=1.0)
+            
             for i, (fields, target) in enumerate(tk0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
