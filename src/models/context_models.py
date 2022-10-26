@@ -60,7 +60,7 @@ class FactorizationMachineModel:
                 if (i + 1) % self.log_interval == 0:
                     tk0.set_postfix(loss=total_loss / self.log_interval)
                     total_loss = 0
-
+            # rmse 계산
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
             
@@ -73,10 +73,11 @@ class FactorizationMachineModel:
             # 'valid_roc_auc' : valid_roc_auc,
             })
 
-
+    # rmse 계산
     def predict_train(self):
         self.model.eval()
         targets, predicts = list(), list()
+        
         with torch.no_grad():
             for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
