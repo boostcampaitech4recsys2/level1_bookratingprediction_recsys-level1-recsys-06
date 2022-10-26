@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "main.py", line 170, in <module>
+    "batch_size" : ars.BATCH_SIZE,
+NameError: name 'ars' is not defined

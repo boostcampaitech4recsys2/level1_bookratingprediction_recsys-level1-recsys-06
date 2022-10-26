@@ -1,0 +1,27 @@
+{
+    "os": "Linux-4.4.0-59-generic-x86_64-with-glibc2.10",
+    "python": "3.8.5",
+    "heartbeatAt": "2022-10-25T03:08:26.029502",
+    "startedAt": "2022-10-25T03:08:24.650734",
+    "docker": null,
+    "gpu": "Tesla V100-SXM2-32GB",
+    "gpu_count": 1,
+    "cpu_count": 8,
+    "cuda": null,
+    "args": [
+        "--MODEL",
+        "FM"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePath": "main.py",
+    "git": {
+        "remote": "https://github.com/boostcampaitech4recsys2/level1_bookratingprediction_recsys-level1-recsys-06.git",
+        "commit": "0d378a3b6018a64ea39a191a45d9e05cab499393"
+    },
+    "email": "legg0724@naver.com",
+    "root": "/opt/ml/level1_bookratingprediction_recsys-level1-recsys-06",
+    "host": "6488dcbdf37f",
+    "username": "root",
+    "executable": "/opt/conda/bin/python"
+}

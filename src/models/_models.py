@@ -3,6 +3,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+# Metrics
 def rmse(real: list, predict: list) -> float:
     pred = np.array(predict)
     return np.sqrt(np.mean((real-pred) ** 2))
@@ -18,7 +19,7 @@ class RMSELoss(torch.nn.Module):
         loss = torch.sqrt(criterion(x, y)+self.eps)
         return loss
 
-
+# FM 계산 class (Embedding들)
 class FactorizationMachine(nn.Module):
 
     def __init__(self, reduce_sum:bool=True):
@@ -52,7 +53,7 @@ class FactorizationMachine_v(nn.Module):
         output = linear + (0.5 * pair_interactions)
         return output
 
-
+# Embedding
 class FeaturesEmbedding(nn.Module):
 
     def __init__(self, field_dims: np.ndarray, embed_dim: int):
@@ -68,6 +69,7 @@ class FeaturesEmbedding(nn.Module):
         x = x + x.new_tensor(self.offsets).unsqueeze(0)
         return self.embedding(x)
 
+# Linear 
 class FeaturesLinear(nn.Module):
 
     def __init__(self, field_dims: np.ndarray, output_dim: int=1):
@@ -83,6 +85,7 @@ class FeaturesLinear(nn.Module):
         x = x + x.new_tensor(self.offsets).unsqueeze(0)
         return torch.sum(self.fc(x), dim=1) + self.bias
 
+# FM Model
 class _FactorizationMachineModel(nn.Module):
 
     def __init__(self, field_dims: np.ndarray, embed_dim: int):

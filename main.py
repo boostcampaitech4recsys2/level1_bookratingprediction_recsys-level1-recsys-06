@@ -5,7 +5,8 @@ import pandas as pd
 
 from src import seed_everything
 
-from src.data import context_data_load, context_data_split, context_data_loader
+#from src.data import context_data_load, context_data_split, context_data_loader
+from src.ksy_data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
@@ -15,10 +16,11 @@ from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetwork
 from src import CNN_FM
 from src import DeepCoNN
 
+import wandb
 
 def main(args):
     seed_everything(args.SEED)
-
+    
     ######################## DATA LOAD
     print(f'--------------- {args.MODEL} Load Data ---------------')
     if args.MODEL in ('FM', 'FFM'):
@@ -121,7 +123,7 @@ if __name__ == "__main__":
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
-    arg('--EPOCHS', type=int, default=10, help='Epoch 수를 조정할 수 있습니다.')
+    arg('--EPOCHS', type=int, default=20, help='Epoch 수를 조정할 수 있습니다.')
     arg('--LR', type=float, default=1e-3, help='Learning Rate를 조정할 수 있습니다.')
     arg('--WEIGHT_DECAY', type=float, default=1e-6, help='Adam optimizer에서 정규화에 사용하는 값을 조정할 수 있습니다.')
 

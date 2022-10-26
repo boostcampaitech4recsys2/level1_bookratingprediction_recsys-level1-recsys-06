@@ -20,6 +20,7 @@ def age_map(x: int) -> int:
     else:
         return 6
 
+# 전처리
 def process_context_data(users, books, ratings1, ratings2):
     users['location_city'] = users['location'].apply(lambda x: x.split(',')[0])
     users['location_state'] = users['location'].apply(lambda x: x.split(',')[1])
@@ -77,7 +78,7 @@ def process_context_data(users, books, ratings1, ratings2):
 
     return idx, train_df, test_df
 
-
+# 전처리된 데이터 로드
 def context_data_load(args):
 
     ######################## DATA LOAD
@@ -127,7 +128,7 @@ def context_data_load(args):
 
     return data
 
-
+# 데이터 split
 def context_data_split(args, data):
     X_train, X_valid, y_train, y_valid = train_test_split(
                                                         data['train'].drop(['rating'], axis=1),
@@ -139,6 +140,7 @@ def context_data_split(args, data):
     data['X_train'], data['X_valid'], data['y_train'], data['y_valid'] = X_train, X_valid, y_train, y_valid
     return data
 
+# 데이터 로더
 def context_data_loader(args, data):
     train_dataset = TensorDataset(torch.LongTensor(data['X_train'].values), torch.LongTensor(data['y_train'].values))
     valid_dataset = TensorDataset(torch.LongTensor(data['X_valid'].values), torch.LongTensor(data['y_valid'].values))
