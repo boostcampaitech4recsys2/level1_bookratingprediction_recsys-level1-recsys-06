@@ -107,6 +107,7 @@ datasets/
 wandb/
 submit/
 images/
+text_vector/
 
 # editor, os cache directory
 .vscode/
