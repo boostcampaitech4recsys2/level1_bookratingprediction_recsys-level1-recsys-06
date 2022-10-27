@@ -5,8 +5,7 @@ import pandas as pd
 
 from src import seed_everything
 
-#from src.data import context_data_load, context_data_split, context_data_loader
-from src.ksy_data import context_data_load, context_data_split, context_data_loader
+from src.data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
@@ -39,8 +38,11 @@ def main(args):
     ######################## Train/Valid Split
     print(f'--------------- {args.MODEL} Train/Valid Split ---------------')
     if args.MODEL in ('FM', 'FFM'):
+        data = data
+        # if 문을 활용해서 kfold 쓸지 안쓸지 하면 될듯 (ex) 모델명을  kFM 따로 만들어주는 )
         data = context_data_split(args, data)
         data = context_data_loader(args, data)
+        
 
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
         data = dl_data_split(args, data)
@@ -77,6 +79,7 @@ def main(args):
 
     ######################## TRAIN
     print(f'--------------- {args.MODEL} TRAINING ---------------')
+    # kfold 
     model.train()
 
     ######################## INFERENCE
@@ -123,7 +126,7 @@ if __name__ == "__main__":
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
-    arg('--EPOCHS', type=int, default=20, help='Epoch 수를 조정할 수 있습니다.')
+    arg('--EPOCHS', type=int, default=10, help='Epoch 수를 조정할 수 있습니다.')
     arg('--LR', type=float, default=1e-3, help='Learning Rate를 조정할 수 있습니다.')
     arg('--WEIGHT_DECAY', type=float, default=1e-6, help='Adam optimizer에서 정규화에 사용하는 값을 조정할 수 있습니다.')
 
@@ -166,11 +169,4 @@ if __name__ == "__main__":
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
     args = parser.parse_args()
-
-    if args.config:
-        # config 파일에서 인자 값들을 읽어온다.
-        with open(args.config, 'rt') as f:
-            t_args = argparse.Namespace()
-            t_args.__dict__.update(json.load(f))
-            args = parser.parse_args(namespace=t_args)
     main(args)
