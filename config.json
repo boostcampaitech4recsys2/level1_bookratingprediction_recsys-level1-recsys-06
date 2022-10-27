@@ -1,7 +1,7 @@
 {
     "DATA_PATH": "data/",
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "DeepCoNN",
+    "MODEL": "CNN_FM",
     "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
@@ -40,5 +40,5 @@
     "DEEPCONN_WORD_DIM": 768,
     "DEEPCONN_OUT_DIM": 32,
 
-    "Wandb_name" : "KCH_my_DataProcessing_DeepCoNN_epoch25"
+    "Wandb_name" : "KCH_BasicData_CNN_FM_epoch25"
 }
