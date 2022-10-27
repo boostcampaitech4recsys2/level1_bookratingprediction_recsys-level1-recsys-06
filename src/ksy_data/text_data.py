@@ -21,6 +21,8 @@ def text_preprocessing(summary):
 
 
 def summary_merge(df, user_id, max_summary):
+    if sum(df['user_id'] == user_id) == 0:
+        user_id = 0
     return " ".join(df[df['user_id'] == user_id].sort_values(by='summary_length', ascending=False)['summary'].values[:max_summary])
 
 
@@ -39,10 +41,10 @@ def text_to_vector(text, tokenizer, model, device):
     return sentence_embedding.cpu().detach().numpy()
 
 
-def process_text_data(df, books, user2idx, isbn2idx, device, train=False, user_summary_merge_vector=False, item_summary_vector=False):
+def process_text_data(df, df_trains, books, user2idx, isbn2idx, device, train=False, user_summary_merge_vector=False, item_summary_vector=False):
     books_ = books.copy()
     books_['isbn'] = books_['isbn'].map(isbn2idx)
-
+    df_train = df_trains.copy()
     if train == True:
         df_ = df.copy()
     else:
@@ -56,6 +58,12 @@ def process_text_data(df, books, user2idx, isbn2idx, device, train=False, user_s
     df_['summary'].replace({'':'None', ' ':'None'}, inplace=True)
     df_['summary_length'] = df_['summary'].apply(lambda x:len(x))
 
+    df_train = pd.merge(df_train, books_[['isbn', 'summary']], on='isbn', how='left')
+    df_train['summary'].fillna('None', inplace=True)
+    df_train['summary'] = df_train['summary'].apply(lambda x:text_preprocessing(x))
+    df_train['summary'].replace({'':'None', ' ':'None'}, inplace=True)
+    df_train['summary_length'] = df_train['summary'].apply(lambda x:len(x))
+
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model = BertModel.from_pretrained('bert-base-uncased').to(device)
 
@@ -63,7 +71,7 @@ def process_text_data(df, books, user2idx, isbn2idx, device, train=False, user_s
         print('Create User Summary Merge Vector')
         user_summary_merge_vector_list = []
         for user in tqdm(df_['user_id'].unique()):
-            vector = text_to_vector(summary_merge(df_, user, 5), tokenizer, model, device)
+            vector = text_to_vector(summary_merge(df_train, user, 5), tokenizer, model, device)
             user_summary_merge_vector_list.append(vector)
         user_review_text_df = pd.DataFrame(df_['user_id'].unique(), columns=['user_id'])
         user_review_text_df['user_summary_merge_vector'] = user_summary_merge_vector_list
@@ -165,8 +173,8 @@ def text_data_load(args):
     train['isbn'] = train['isbn'].map(isbn2idx)
     sub['isbn'] = sub['isbn'].map(isbn2idx)
 
-    text_train = process_text_data(train, books, user2idx, isbn2idx, args.DEVICE, train=True, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
-    text_test = process_text_data(test, books, user2idx, isbn2idx, args.DEVICE, train=False, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
+    text_train = process_text_data(train, train, books, user2idx, isbn2idx, args.DEVICE, train=True, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
+    text_test = process_text_data(test, train, books, user2idx, isbn2idx, args.DEVICE, train=False, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
 
     data = {
             'train':train,
