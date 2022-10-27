@@ -4,6 +4,7 @@ import tqdm
 import torch
 import torch.nn as nn
 from ._models import RMSELoss, FeaturesEmbedding, FactorizationMachine_v
+import wandb
 
 
 class CNN_1D(nn.Module):
@@ -83,9 +84,17 @@ class DeepCoNN:
         self.criterion = RMSELoss()
         self.epochs = args.EPOCHS
         self.model_name = 'text_model'
+        self.args = args
 
 
     def train(self):
+        wandb.init(project='level1_bookratingprediction_recsys-level1-recsys-06', entity='thumbs-up')
+        wandb.run.name = self.args.Wandb_name # 프로젝트 이름 설정부분, config 파일 맨 밑에 넣어놓음.
+        wandb.config.update({
+            "batch_size" : self.args.BATCH_SIZE,
+            "epochs": self.args.EPOCHS,
+            # "optimizer": self.args.optimizer
+        })
         minimum_loss = 999999999
         loss_list = []
         tk0 = tqdm.tqdm(range(self.epochs), smoothing=0, mininterval=1.0)
@@ -128,6 +137,7 @@ class DeepCoNN:
                 loss_list.append([epoch, total_loss/n, val_total_loss/val_n, 'Model saved'])
             else:
                 loss_list.append([epoch, total_loss/n, val_total_loss/val_n, 'None'])
+            wandb.log({'rmse_score' : val_total_loss/val_n})
             tk0.set_postfix(train_loss=total_loss/n, valid_loss=val_total_loss/val_n)
 
 

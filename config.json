@@ -1,9 +1,9 @@
 {
     "DATA_PATH": "data/",
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "FM",
+    "MODEL": "DeepCoNN",
     "DATA_SHUFFLE": true,
-    "TEST_SIZE": 0.2,
+    "TEST_SIZE": 0.1,
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
@@ -40,5 +40,5 @@
     "DEEPCONN_WORD_DIM": 768,
     "DEEPCONN_OUT_DIM": 32,
 
-    "Wandb_name" : "KSY_my_DataProcessing_FM2_epoch10"
+    "Wandb_name" : "BSS_DeepCoNN_Base2"
 }
