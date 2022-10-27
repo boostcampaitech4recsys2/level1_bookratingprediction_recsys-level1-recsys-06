@@ -3,11 +3,11 @@
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
     "MODEL": "DeepCoNN",
     "DATA_SHUFFLE": true,
-    "TEST_SIZE": 0.1,
+    "TEST_SIZE": 0.2,
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
-    "EPOCHS": 10,
+    "EPOCHS": 20,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
@@ -32,7 +32,7 @@
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,
 
-    "DEEPCONN_VECTOR_CREATE": false,
+    "DEEPCONN_VECTOR_CREATE": true,
     "DEEPCONN_EMBED_DIM": 32,
     "DEEPCONN_LATENT_DIM": 10,
     "DEEPCONN_CONV_1D_OUT_DIM": 50,
