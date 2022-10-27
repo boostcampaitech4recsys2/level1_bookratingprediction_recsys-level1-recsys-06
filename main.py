@@ -38,12 +38,14 @@ def main(args):
     ######################## Train/Valid Split
     print(f'--------------- {args.MODEL} Train/Valid Split ---------------')
     if args.MODEL in ('FM', 'FFM'):
-        data = context_data_split(args, data)
-        data = context_data_loader(args, data)
+        data = data
+        # data = context_data_split(args, data)
+        # data = context_data_loader(args, data)
+        
 
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
         data = dl_data_split(args, data)
-        data = dl_data_loader(args, data)
+        # data = dl_data_loader(args, data)
 
     elif args.MODEL=='CNN_FM':
         data = image_data_split(args, data)
@@ -76,7 +78,7 @@ def main(args):
 
     ######################## TRAIN
     print(f'--------------- {args.MODEL} TRAINING ---------------')
-    model.train()
+    model.kfold_train()
 
     ######################## INFERENCE
     print(f'--------------- {args.MODEL} PREDICT ---------------')
@@ -122,7 +124,7 @@ if __name__ == "__main__":
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
-    arg('--EPOCHS', type=int, default=20, help='Epoch 수를 조정할 수 있습니다.')
+    arg('--EPOCHS', type=int, default=10, help='Epoch 수를 조정할 수 있습니다.')
     arg('--LR', type=float, default=1e-3, help='Learning Rate를 조정할 수 있습니다.')
     arg('--WEIGHT_DECAY', type=float, default=1e-6, help='Adam optimizer에서 정규화에 사용하는 값을 조정할 수 있습니다.')
 

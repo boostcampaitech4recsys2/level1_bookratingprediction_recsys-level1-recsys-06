@@ -122,11 +122,12 @@ def context_data_load(args):
                             6, len(idx['loc_city2idx']), len(idx['loc_state2idx']), len(idx['loc_country2idx']),
                             len(idx['category2idx']), len(idx['publisher2idx']), len(idx['language2idx']), len(idx['author2idx'])], dtype=np.uint32)
     
-    test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
+    test_dataset = TensorDataset(torch.LongTensor(context_test.drop(['rating'], axis=1).values))
     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
     data = {
             'train':context_train,
+            'train_k' : context_train.drop(['rating'], axis = 1),
             'test':context_test.drop(['rating'], axis=1),
             'field_dims':field_dims,
             'users':users,
@@ -136,7 +137,9 @@ def context_data_load(args):
             'idx2isbn':idx2isbn,
             'user2idx':user2idx,
             'isbn2idx':isbn2idx,
-            'test_dataloader': test_dataloader
+            'test_dataloader': test_dataloader,
+            'train_X' : context_train.drop(['rating'], axis=1),
+            'train_y':  context_train['rating']
             }
 
 
@@ -168,3 +171,4 @@ def context_data_loader(args, data):
     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
 
     return data
+

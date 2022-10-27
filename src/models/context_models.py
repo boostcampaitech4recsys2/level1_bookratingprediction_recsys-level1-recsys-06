@@ -9,6 +9,7 @@ import torch.optim as optim
 from ._models import _FactorizationMachineModel, _FieldAwareFactorizationMachineModel
 from ._models import rmse, RMSELoss
 from sklearn.model_selection import KFold
+from torch.utils.data import TensorDataset, DataLoader, Dataset
 
 import wandb
 
@@ -20,8 +21,8 @@ class FactorizationMachineModel:
 
         self.criterion = RMSELoss()
 
-        self.train_dataloader = data['train_dataloader']
-        self.valid_dataloader = data['valid_dataloader']
+        # self.train_dataloader = data['train_dataloader']
+        # self.valid_dataloader = data['valid_dataloader']
         self.field_dims = data['field_dims']
 
         self.embed_dim = args.FM_EMBED_DIM
@@ -36,6 +37,10 @@ class FactorizationMachineModel:
         self.model = _FactorizationMachineModel(self.field_dims, self.embed_dim).to(self.device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
+        self.seed = args.SEED
+        self.trainx = data['train_X']
+        self.trainy = data['train_y']
+        self.batchsize = args.BATCH_SIZE
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
@@ -43,7 +48,6 @@ class FactorizationMachineModel:
         wandb.config.update({
             "batch_size" : self.args.BATCH_SIZE,
             "epochs": self.args.EPOCHS,
-            # "optimizer": self.args.optimizer
         })
         for epoch in range(self.epochs):
             self.model.train()
@@ -65,33 +69,36 @@ class FactorizationMachineModel:
                     total_loss = 0
             # rmse 계산
             rmse_score = self.predict_train()
-            print('epoch:', epoch, 'validation: rmse:', rmse_score)
+            print('epoch:', epoch, 'validation rmse:', rmse_score)
             
             wandb.log({
             'rmse_score' : rmse_score
-            # 'train_acc' : train_acc,
-            # 'train_roc_auc' : train_roc_auc,
-            # 'valid_loss' : valid_loss,
-            # 'valid_acc' : valid_acc,
-            # 'valid_roc_auc' : valid_roc_auc,
             })
 
     def kfold_train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
-        kfold = KFold(n_splits = 10, random_state = args.SEED)
+        wandb.init()
+        wandb.config.update({
+            "batch_size" : self.batchsize,
+            "epochs": self.epochs,
+        })
+        train_dataset = TensorDataset(torch.LongTensor(self.trainx.values), torch.LongTensor(self.trainy.values))
+        kfold = KFold(n_splits = 10, random_state = self.seed, shuffle = True)
+        print(train_dataset)
+        validation_loss = []
         
-        for fold, (train_idx, val_idx) in enumerate(kfold.split(data)):
-            train_sampler = torch.utils.data.SubsetRandomSampler(train_idx)
+        for fold, (train_idx, val_idx) in enumerate(kfold.split(train_dataset)):
+            train_subsampler = torch.utils.data.SubsetRandomSampler(train_idx)
             val_subsampler = torch.utils.data.SubsetRandomSampler(val_idx)
             
-            trainloader = torch.utils.data.DataLoader(trainset, batch_size=32, sampler=train_subsampler) # 해당하는 index 추출
-            valloader = torch.utils.data.DataLoader(trainset, batch_size=32, sampler=val_subsampler)
+            trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=self.batchsize, sampler=train_subsampler) # 해당하는 index 추출
+            valloader = torch.utils.data.DataLoader(train_dataset, batch_size=self.batchsize, sampler=val_subsampler)
             
             for epoch in range(self.epochs):
                 # model이 훈련하고 있음을 모델에 알림 -> 이는 훈련 및 평가 중에 다르게 동작하도록 설계된 Dropout 및 BatchNorm과 같은 계층에 정보 제공
                 self.model.train()
                 total_loss = 0
-                tk0 = tqdm.tqdm(self.train_dataloader, smoothing=0, mininterval=1.0)
+                tk0 = tqdm.tqdm(trainloader, smoothing=0, mininterval=1.0)
                 
                 for i, (fields, target) in enumerate(tk0):
                     fields, target = fields.to(self.device), target.to(self.device)
@@ -104,17 +111,42 @@ class FactorizationMachineModel:
                     if (i + 1) % self.log_interval == 0:
                         tk0.set_postfix(loss=total_loss / self.log_interval)
                         total_loss = 0
-
-            rmse_score = self.predict_train()
-            print('epoch:', epoch, 'validation: rmse:', rmse_score)
+                              
+            rmse_score = self.predict_train(valloader)
+            rm = self.predict_train_real(trainloader)
+            validation_loss.append(rmse_score)
+            print('epoch:', epoch, 'validation rmse:', rmse_score)
+            print("k-fold", fold,"  train rmse: %.4f" %(rm))
+            wandb.log({
+            'rmse_score' : rmse_score
+            })
+            # print(trainloader.shape)
+            
+        mean = np.mean(validation_loss)
+        std = np.std(validation_loss)
+        print("Validation Score: %.4f, ± %.4f" %(mean, std))
+        
+        
             
     # rmse 계산
-    def predict_train(self):
+    def predict_train(self, val):
         self.model.eval()
         targets, predicts = list(), list()
         
         with torch.no_grad():
-            for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
+            for fields, target in tqdm.tqdm(val, smoothing=0, mininterval=1.0):
+                fields, target = fields.to(self.device), target.to(self.device)
+                y = self.model(fields)
+                targets.extend(target.tolist())
+                predicts.extend(y.tolist())
+        return rmse(targets, predicts)
+    
+    def predict_train_real(self, train):
+        self.model.eval()
+        targets, predicts = list(), list()
+        
+        with torch.no_grad():
+            for fields, target in tqdm.tqdm(train, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
                 targets.extend(target.tolist())
