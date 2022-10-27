@@ -110,3 +110,8 @@ wandb/
 .vscode/
 .idea/
 __MACOSX/
+
+# add by kch
+data/
+submit/
+.DS_Store
