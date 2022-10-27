@@ -108,6 +108,7 @@ wandb/
 submit/
 images/
 text_vector/
+valid/
 
 # editor, os cache directory
 .vscode/
