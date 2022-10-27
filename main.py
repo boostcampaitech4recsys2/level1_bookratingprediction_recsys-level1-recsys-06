@@ -174,4 +174,5 @@ if __name__ == "__main__":
             t_args = argparse.Namespace()
             t_args.__dict__.update(json.load(f))
             args = parser.parse_args(namespace=t_args)
+    
     main(args)
