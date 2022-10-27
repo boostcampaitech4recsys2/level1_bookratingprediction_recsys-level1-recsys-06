@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 submit/
 data/images
+data/text_vector
+EDA/catboost_info
 
 # C extensions
 *.so
