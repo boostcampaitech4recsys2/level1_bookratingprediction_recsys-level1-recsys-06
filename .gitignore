@@ -112,6 +112,7 @@ wandb/
 __MACOSX/
 
 # add by kch
-data/
+images/
+text_vector/
 submit/
 .DS_Store
