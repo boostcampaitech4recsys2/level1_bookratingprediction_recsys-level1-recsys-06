@@ -40,5 +40,5 @@
     "DEEPCONN_WORD_DIM": 768,
     "DEEPCONN_OUT_DIM": 32,
 
-    "Wandb_name" : "BSS_DeepCoNN_Base2"
+    "Wandb_name" : "DeepCoNN_Change_TestSummary_epoch20"
 }
