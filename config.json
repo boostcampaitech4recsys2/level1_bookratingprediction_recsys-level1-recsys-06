@@ -1,13 +1,13 @@
 {
     "DATA_PATH": "data/",
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "FM",
+    "MODEL": "DeepCoNN",
     "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
-    "EPOCHS": 1,
+    "EPOCHS": 20,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
@@ -32,11 +32,13 @@
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,
 
-    "DEEPCONN_VECTOR_CREATE": false,
+    "DEEPCONN_VECTOR_CREATE": true,
     "DEEPCONN_EMBED_DIM": 32,
     "DEEPCONN_LATENT_DIM": 10,
     "DEEPCONN_CONV_1D_OUT_DIM": 50,
     "DEEPCONN_KERNEL_SIZE": 3,
     "DEEPCONN_WORD_DIM": 768,
-    "DEEPCONN_OUT_DIM": 32
+    "DEEPCONN_OUT_DIM": 32,
+
+    "Wandb_name" : "DeepCoNN_Change_TestSummary_epoch20"
 }

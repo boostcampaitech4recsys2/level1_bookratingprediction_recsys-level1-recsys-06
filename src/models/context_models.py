@@ -21,6 +21,7 @@ class FactorizationMachineModel:
 
         self.criterion = RMSELoss()
 
+        # kfold에 의해서 필요 x
         # self.train_dataloader = data['train_dataloader']
         # self.valid_dataloader = data['valid_dataloader']
         self.field_dims = data['field_dims']

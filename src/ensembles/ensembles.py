@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from ..models._models import rmse 
+from pyparsing import col
+#from ..models._models import rmse
 
 class Ensemble:
     def __init__(self, filenames:str, filepath:str):
@@ -47,3 +48,20 @@ class Ensemble:
             post_idx = self.filenames[idx+1]
             result[self.output_df[pre_idx]<1] = self.output_df.loc[self.output_df[pre_idx]<1,post_idx]
         return result.tolist()
+
+    def cold_condition(self, n):
+        if not len(self.output_list) == 2:
+            raise ValueError("두개의 모델만을 넣어주세요.")
+        cold_users = cold_start_set(n)
+        result = []
+        for i, uid, isbn, m1, m2 in self.output_df.itertuples():
+            if uid in cold_users:
+                result.append(m2)
+            else:
+                result.append(m1)
+        return result
+
+def cold_start_set(n: int=0) -> set():
+    df = pd.read_csv('/opt/ml/workspace/level1_bookratingprediction_recsys-level1-recsys-06/data/user_review_count.csv')
+    cold_users = set(df[df['count']<=n]['user_id'])
+    return cold_users
