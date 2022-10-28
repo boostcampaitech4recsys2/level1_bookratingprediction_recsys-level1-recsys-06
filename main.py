@@ -170,8 +170,6 @@ if __name__ == "__main__":
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
     args = parser.parse_args()
-<<<<<<< HEAD
-=======
 
     if args.config:
         # config 파일에서 인자 값들을 읽어온다.
@@ -179,6 +177,4 @@ if __name__ == "__main__":
             t_args = argparse.Namespace()
             t_args.__dict__.update(json.load(f))
             args = parser.parse_args(namespace=t_args)
-    
->>>>>>> b7e22d5b1c37b7f913d759959d3d6c412b66cf1a
     main(args)
