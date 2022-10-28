@@ -6,7 +6,7 @@ import pandas as pd
 from src import seed_everything
 
 #from src.data import context_data_load, context_data_split, context_data_loader
-from src.ksy_data import context_data_load, context_data_split, context_data_loader
+from src.data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
@@ -102,7 +102,7 @@ def main(args):
     now_date = time.strftime('%Y%m%d', now)
     now_hour = time.strftime('%X', now)
     save_time = now_date + '_' + now_hour.replace(':', '')
-    submission.to_csv('submit/KCH_{}_{}.csv'.format(save_time, args.MODEL), index=False)
+    submission.to_csv('submit/KCH_{}_{}_{}.csv'.format(save_time, args.MODEL, args.EPOCHS), index=False)
 
 
 
@@ -173,4 +173,5 @@ if __name__ == "__main__":
             t_args = argparse.Namespace()
             t_args.__dict__.update(json.load(f))
             args = parser.parse_args(namespace=t_args)
+
     main(args)

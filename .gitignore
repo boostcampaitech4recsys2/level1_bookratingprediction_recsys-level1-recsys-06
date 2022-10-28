@@ -116,3 +116,4 @@ images/
 text_vector/
 submit/
 .DS_Store
+*.pt
