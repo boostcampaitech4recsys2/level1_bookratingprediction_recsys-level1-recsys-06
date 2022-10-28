@@ -43,12 +43,7 @@ def process_text_data(df, concat_datas, books, user2idx, isbn2idx, device, train
     books_ = books.copy()
     books_['isbn'] = books_['isbn'].map(isbn2idx)
     concat_data = concat_datas.copy()
-    if train == True:
-        df_ = df.copy()
-    else:
-        df_ = df.copy()
-        df_['user_id'] = df_['user_id'].map(user2idx)
-        df_['isbn'] = df_['isbn'].map(isbn2idx)
+    df_ = df.copy()
 
     df_ = pd.merge(df_, books_[['isbn', 'summary']], on='isbn', how='left')
     df_['summary'].fillna('None', inplace=True)
@@ -65,7 +60,7 @@ def process_text_data(df, concat_datas, books, user2idx, isbn2idx, device, train
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     model = BertModel.from_pretrained('bert-base-uncased').to(device)
 
-    if user_summary_merge_vector and item_summary_vector:
+    if user_summary_merge_vector and item_summary_vector and train == False:
         print('Create User Summary Merge Vector')
         user_summary_merge_vector_list = []
         for user in tqdm(df_['user_id'].unique()):
@@ -166,9 +161,11 @@ def text_data_load(args):
     isbn2idx = {isbn:idx for idx, isbn in idx2isbn.items()}
 
     train['user_id'] = train['user_id'].map(user2idx)
+    test['user_id'] = test['user_id'].map(user2idx)
     sub['user_id'] = sub['user_id'].map(user2idx)
 
     train['isbn'] = train['isbn'].map(isbn2idx)
+    test['isbn'] = test['isbn'].map(isbn2idx)
     sub['isbn'] = sub['isbn'].map(isbn2idx)
 
     concat_data = pd.concat([train, test])
@@ -176,8 +173,8 @@ def text_data_load(args):
     text_train = process_text_data(train, concat_data, books, user2idx, isbn2idx, args.DEVICE, train=True, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
     text_test = process_text_data(test, concat_data, books, user2idx, isbn2idx, args.DEVICE, train=False, user_summary_merge_vector=args.DEEPCONN_VECTOR_CREATE, item_summary_vector=args.DEEPCONN_VECTOR_CREATE)
 
-    print(test.head(10))
-    print(text_test.head(10))
+    # print(test.head(10))
+    # print(text_test.head(10))
     data = {
             'train':train,
             'test':test,
