@@ -1,6 +1,7 @@
 import tqdm
 
 import numpy as np
+import pandas as pd
 
 import torch
 import torch.nn as nn
@@ -28,6 +29,8 @@ class FactorizationMachineModel:
         self.weight_decay = args.WEIGHT_DECAY
         self.log_interval = 100
         self.args = args
+        self.idx2user = data['idx2user']
+        self.idx2isbn = data['idx2isbn']
         
         self.device = args.DEVICE
 
@@ -51,7 +54,6 @@ class FactorizationMachineModel:
             for i, (fields, target) in enumerate(tk0):
                 self.model.zero_grad()
                 fields, target = fields.to(self.device), target.to(self.device)
-
                 y = self.model(fields)
                 loss = self.criterion(y, target.float())
 
@@ -73,17 +75,32 @@ class FactorizationMachineModel:
             # 'valid_acc' : valid_acc,
             # 'valid_roc_auc' : valid_roc_auc,
             })
+        self.predict_train(True)
 
 
-    def predict_train(self):
+    def predict_train(self,save=False):
         self.model.eval()
         targets, predicts = list(), list()
+        users, isbns = np.array([]),np.array([])
         with torch.no_grad():
             for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
                 targets.extend(target.tolist())
                 predicts.extend(y.tolist())
+                if save:
+                    users = np.concatenate((users,fields[:,0].tolist()))
+                    isbns = np.concatenate((isbns,fields[:,1].tolist()))
+            if save:
+                print(f'--------------- Saving Valid ---------------')
+                df_valid = pd.DataFrame({
+                    'user_id':users,
+                    'isbn':isbns,
+                    'target':targets,
+                    'rating':predicts})
+                df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
+                df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
+                df_valid.sort_values(by='user_id').to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
         return rmse(targets, predicts)
 
 
