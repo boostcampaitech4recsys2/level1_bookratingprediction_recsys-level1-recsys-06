@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+submit/
+data/images
+data/text_vector
+EDA/catboost_info
 
 # C extensions
 *.so
@@ -105,6 +109,9 @@ input/
 saved/
 datasets/
 wandb/
+submit/
+images/
+text_vector/
 
 # editor, os cache directory
 .vscode/
