@@ -32,7 +32,7 @@ class FactorizationMachineModel:
         self.weight_decay = args.WEIGHT_DECAY
         self.log_interval = 100
         self.args = args
-        
+        self.config = args.config
         self.device = args.DEVICE
 
         self.model = _FactorizationMachineModel(self.field_dims, self.embed_dim).to(self.device)
@@ -45,11 +45,10 @@ class FactorizationMachineModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
-        wandb.init()
-        wandb.config.update({
-            "batch_size" : self.args.BATCH_SIZE,
-            "epochs": self.args.EPOCHS,
-        })
+        wandb.init(config=self.config.hyperparameter_defaults)
+        w_config = wandb.config
+        wandb.watch(self.model, log='all')
+        
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -75,6 +74,7 @@ class FactorizationMachineModel:
             wandb.log({
             'rmse_score' : rmse_score
             })
+        
 
     def kfold_train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
