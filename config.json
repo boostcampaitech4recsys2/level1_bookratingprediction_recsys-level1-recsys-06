@@ -40,5 +40,5 @@
     "DEEPCONN_WORD_DIM": 768,
     "DEEPCONN_OUT_DIM": 32,
 
-    "Wandb_name" : "DeepCoNN_Change_TestSummary_epoch20"
+    "Wandb_name" : "DeepCoNN_Leakage_epoch20"
 }
