@@ -40,14 +40,9 @@ def main(args):
     print(f'--------------- {args.MODEL} Train/Valid Split ---------------')
     if args.MODEL in ('FM', 'FFM'):
         data = data
-<<<<<<< HEAD
-        # data = context_data_split(args, data)
-        # data = context_data_loader(args, data)
-=======
         # if 문을 활용해서 kfold 쓸지 안쓸지 하면 될듯 (ex) 모델명을  kFM 따로 만들어주는 )
         data = context_data_split(args, data)
         data = context_data_loader(args, data)
->>>>>>> master
         
 
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
@@ -85,12 +80,8 @@ def main(args):
 
     ######################## TRAIN
     print(f'--------------- {args.MODEL} TRAINING ---------------')
-<<<<<<< HEAD
-    model.kfold_train()
-=======
     # kfold 
-    model.train()
->>>>>>> master
+    model.train() # model.kfold_train()
 
     ######################## INFERENCE
     print(f'--------------- {args.MODEL} PREDICT ---------------')
