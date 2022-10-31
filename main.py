@@ -17,6 +17,8 @@ from src import CNN_FM
 from src import DeepCoNN
 
 import wandb
+import yaml
+
 
 def main(args):
     seed_everything(args.SEED)
@@ -81,8 +83,9 @@ def main(args):
     ######################## TRAIN
     print(f'--------------- {args.MODEL} TRAINING ---------------')
     if args.MODEL=='FM':
-        sweep_id = wandb.sweep(args.config.sweep_config)
-        wandb.agent(sweep_id, model.kfold_train(), count=2)
+        wandb.init()
+        sweep_id = wandb.sweep(sweep = args.sweep_sample)
+        wandb.agent(sweep_id, function = model.kfold_train(), count=2)
     
 
     ######################## INFERENCE
@@ -171,13 +174,19 @@ if __name__ == "__main__":
     arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
+    arg('--sweep_sample',default=None, help='지정된 경로의 SWEEP파일에서 설정값을 가져와 사용합니다.')
     args = parser.parse_args()
 
-    if args.config:
+    if args.config or args.sweep_sample:
         # config 파일에서 인자 값들을 읽어온다.
         with open(args.config, 'rt') as f:
             t_args = argparse.Namespace()
             t_args.__dict__.update(json.load(f))
             args = parser.parse_args(namespace=t_args)
-    
+        
+        with open(args.sweep_sample, 'rt') as f:
+            t_args = argparse.Namespace()
+            t_args.__dict__.update(yaml.load(f, Loader=yaml.FullLoader))
+            args = parser.parse_args(namespace=t_args)
+
     main(args)

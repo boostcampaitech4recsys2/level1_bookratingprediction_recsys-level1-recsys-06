@@ -47,7 +47,6 @@ class FactorizationMachineModel:
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
         wandb.init(config=self.config.hyperparameter_defaults)
         w_config = wandb.config
-        wandb.watch(self.model, log='all')
         
         for epoch in range(self.epochs):
             self.model.train()
@@ -85,8 +84,8 @@ class FactorizationMachineModel:
         })
         train_dataset = TensorDataset(torch.LongTensor(self.trainx.values), torch.LongTensor(self.trainy.values))
         kfold = KFold(n_splits = 10, random_state = self.seed, shuffle = True)
-        print(train_dataset)
         validation_loss = []
+        wandb.watch(self.model, log='all')
         
         for fold, (train_idx, val_idx) in enumerate(kfold.split(train_dataset)):
             train_subsampler = torch.utils.data.SubsetRandomSampler(train_idx)
@@ -116,10 +115,10 @@ class FactorizationMachineModel:
             rmse_score = self.predict_train(valloader)
             rm = self.predict_train_real(trainloader)
             validation_loss.append(rmse_score)
-            print('epoch:', epoch, 'validation rmse:', rmse_score)
+            print('epoch:', epoch, 'validation_loss:', rmse_score)
             print("k-fold", fold,"  train rmse: %.4f" %(rm))
             wandb.log({
-            'rmse_score' : rmse_score
+            'validation_loss' : rmse_score
             })
             # print(trainloader.shape)
             
