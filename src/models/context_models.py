@@ -38,7 +38,6 @@ class FactorizationMachineModel:
         self.model = _FactorizationMachineModel(self.field_dims, self.embed_dim).to(self.device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
-        # kfold에 사용될 새로 정의한
         self.seed = args.SEED
         self.trainx = data['train_X']
         self.trainy = data['train_y']
