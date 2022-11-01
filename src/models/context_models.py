@@ -22,8 +22,8 @@ class FactorizationMachineModel:
         self.criterion = RMSELoss()
 
         # kfold에 의해서 필요 x
-        # self.train_dataloader = data['train_dataloader']
-        # self.valid_dataloader = data['valid_dataloader']
+        self.train_dataloader = data['train_dataloader']
+        self.valid_dataloader = data['valid_dataloader']
         self.field_dims = data['field_dims']
 
         self.embed_dim = args.FM_EMBED_DIM
@@ -130,12 +130,11 @@ class FactorizationMachineModel:
         
             
     # rmse 계산
-    def predict_train(self, val):
+    def predict_train(self):
         self.model.eval()
         targets, predicts = list(), list()
-        
         with torch.no_grad():
-            for fields, target in tqdm.tqdm(val, smoothing=0, mininterval=1.0):
+            for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
                 targets.extend(target.tolist())

@@ -47,7 +47,7 @@ def main(args):
 
     elif args.MODEL in ('NCF', 'WDN', 'DCN'):
         data = dl_data_split(args, data)
-        # data = dl_data_loader(args, data)
+        data = dl_data_loader(args, data)
 
     elif args.MODEL=='CNN_FM':
         data = image_data_split(args, data)
@@ -171,6 +171,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    args.MODEL = 'FM'
     if args.config:
         # config 파일에서 인자 값들을 읽어온다.
         with open(args.config, 'rt') as f:
