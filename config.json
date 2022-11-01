@@ -6,15 +6,15 @@
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
-    "BATCH_SIZE": 512,
-    "EPOCHS": 20,
+    "BATCH_SIZE": 1024,
+    "EPOCHS": 10,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
-    "DEVICE": "cuda",
+    "DEVICE": "cpu",
 
-    "FM_EMBED_DIM": 6,
+    "FM_EMBED_DIM": 8,
 
-    "FFM_EMBED_DIM": 12,
+    "FFM_EMBED_DIM": 8,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],

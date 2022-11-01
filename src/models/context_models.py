@@ -30,7 +30,7 @@ class FactorizationMachineModel:
         self.epochs = args.EPOCHS
         self.learning_rate = args.LR
         self.weight_decay = args.WEIGHT_DECAY
-        self.log_interval = 100
+        self.log_interval = 100 
         self.args = args
         
         self.device = args.DEVICE
@@ -39,8 +39,8 @@ class FactorizationMachineModel:
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
         self.seed = args.SEED
-        self.trainx = data['train_X']
-        self.trainy = data['train_y']
+        # self.trainx = data['train_X']
+        # self.trainy = data['train_y']
         self.batchsize = args.BATCH_SIZE
 
     def train(self):

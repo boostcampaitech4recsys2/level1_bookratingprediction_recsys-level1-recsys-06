@@ -5,7 +5,8 @@ import pandas as pd
 
 from src import seed_everything
 
-from src.data import context_data_load, context_data_split, context_data_loader
+from src.ksy_data import context_data_load, context_data_split, context_data_loader
+#from src.data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 #from src.data import text_data_load, text_data_split, text_data_loader
@@ -171,7 +172,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    args.MODEL = 'FM'
+    # args.MODEL = 'FM'
+    # args.BATCH_SIZE = 2048
+    # args.EPOCHS = 10
     if args.config:
         # config 파일에서 인자 값들을 읽어온다.
         with open(args.config, 'rt') as f:
