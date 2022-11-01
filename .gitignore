@@ -118,3 +118,5 @@ valid/
 .vscode/
 .idea/
 __MACOSX/
+
+BSS_test.ipynb

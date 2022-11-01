@@ -52,16 +52,22 @@ class Ensemble:
     def cold_condition(self, n):
         if not len(self.output_list) == 2:
             raise ValueError("두개의 모델만을 넣어주세요.")
-        cold_users = cold_start_set(n)
+        cold_users = cold_user_set(n)
+        cold_books = cold_book_set(n)
         result = []
         for i, uid, isbn, m1, m2 in self.output_df.itertuples():
-            if uid in cold_users:
+            if uid in cold_users or isbn in cold_books:
                 result.append(m2)
             else:
                 result.append(m1)
         return result
 
-def cold_start_set(n: int=0) -> set():
+def cold_user_set(n: int=0) -> set():
     df = pd.read_csv('/opt/ml/workspace/level1_bookratingprediction_recsys-level1-recsys-06/data/user_review_count.csv')
     cold_users = set(df[df['count']<=n]['user_id'])
     return cold_users
+
+def cold_book_set(n:int=0)->set():
+    df = pd.read_csv('/opt/ml/workspace/level1_bookratingprediction_recsys-level1-recsys-06/data/book_review_count.csv')
+    cold_books = set(df[df['count']<=n]['isbn'])
+    return cold_books

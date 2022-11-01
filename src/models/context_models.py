@@ -134,6 +134,10 @@ class FieldAwareFactorizationMachineModel:
 
         self.device = args.DEVICE
 
+        self.args = args
+        self.idx2user = data['idx2user']
+        self.idx2isbn = data['idx2isbn']
+
         self.model = _FieldAwareFactorizationMachineModel(self.field_dims, self.embed_dim).to(self.device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
@@ -158,17 +162,32 @@ class FieldAwareFactorizationMachineModel:
 
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
+        self.predict_train(True)
 
 
-    def predict_train(self):
+    def predict_train(self,save=False):
         self.model.eval()
         targets, predicts = list(), list()
+        users, isbns = np.array([]),np.array([])
         with torch.no_grad():
             for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
                 targets.extend(target.tolist())
                 predicts.extend(y.tolist())
+                if save:
+                    users = np.concatenate((users,fields[:,0].tolist()))
+                    isbns = np.concatenate((isbns,fields[:,1].tolist()))
+            if save:
+                print(f'--------------- Saving Valid ---------------')
+                df_valid = pd.DataFrame({
+                    'user_id':users,
+                    'isbn':isbns,
+                    'target':targets,
+                    'rating':predicts})
+                df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
+                df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
+                df_valid.sort_values(by='user_id').to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
         return rmse(targets, predicts)
 
 

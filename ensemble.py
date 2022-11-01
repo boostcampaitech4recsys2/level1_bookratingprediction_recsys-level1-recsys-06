@@ -24,7 +24,7 @@ def main(args):
         result = en.mixed()
     elif args.ENSEMBLE_STRATEGY == 'COLD':
         strategy_title = args.ENSEMBLE_STRATEGY.lower() #mixed
-        result = en.cold_condition(0)
+        result = en.cold_condition(10)
 
     else:
         pass

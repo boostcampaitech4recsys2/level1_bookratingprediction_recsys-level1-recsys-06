@@ -9,14 +9,15 @@ from src.data import context_data_load, context_data_split, context_data_loader
 #from src.ksy_data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
-#from src.data import text_data_load, text_data_split, text_data_loader
-from src.ksy_data import text_data_load, text_data_split, text_data_loader
+from src.data import text_data_load, text_data_split, text_data_loader
+#from src.ksy_data import text_data_load, text_data_split, text_data_loader
 
 from src import FactorizationMachineModel, FieldAwareFactorizationMachineModel
-from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel
+from src import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel, FFDCNModel
 from src import CNN_FM
 from src import DeepCoNN
-
+from src.data import textcon_data_load, textcon_data_loader, textcon_data_split
+from src import FactorizationTextMachineModel
 import wandb
 
 def main(args):
@@ -34,7 +35,11 @@ def main(args):
         import nltk
         nltk.download('punkt')
         data = text_data_load(args)
+    elif args.MODEL == 'FFDCN':
+        dataffm = context_data_load(args)
+        datadcn = dl_data_load(args)
     else:
+        data = textcon_data_load(args)
         pass
 
     ######################## Train/Valid Split
@@ -54,9 +59,17 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         data = text_data_split(args, data)
         data = text_data_loader(args, data)
+    elif args.MODEL == 'FFDCN':
+        dataffm = context_data_split(args,dataffm)
+        dataffm = context_data_loader(args,dataffm)
+        seed_everything(args.SEED)
+        datadcn = dl_data_split(args,datadcn)
+        datadcn = dl_data_loader(args,datadcn)
+        
     else:
+        data = textcon_data_split(args,data)
+        data = textcon_data_loader(args,data)
         pass
-
     ######################## Model
     print(f'--------------- INIT {args.MODEL} ---------------')
     if args.MODEL=='FM':
@@ -73,7 +86,10 @@ def main(args):
         model = CNN_FM(args, data)
     elif args.MODEL=='DeepCoNN':
         model = DeepCoNN(args, data)
+    elif args.MODEL=='FFDCN':
+        model = FFDCNModel(args,dataffm,datadcn)
     else:
+        model = FactorizationTextMachineModel(args, data)
         pass
 
     ######################## TRAIN
@@ -88,15 +104,19 @@ def main(args):
         predicts  = model.predict(data['test_dataloader'])
     elif args.MODEL=='DeepCoNN':
         predicts  = model.predict(data['test_dataloader'])
+    elif args.MODEL == 'FFDCN':
+        predicts = model.predict(dataffm['test_dataloader'], datadcn['test_dataloader'])
     else:
+        predicts = model.predict(data['test_dataloader'])
         pass
 
     ######################## SAVE PREDICT
     print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
     submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'):
+    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN','FFDCN'):
         submission['rating'] = predicts
     else:
+        submission['rating'] = predicts
         pass
 
     now = time.localtime()

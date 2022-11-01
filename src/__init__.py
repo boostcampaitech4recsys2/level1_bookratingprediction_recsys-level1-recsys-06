@@ -7,8 +7,10 @@ from .utils import seed_everything
 # from .data.text_data import text_data_load, text_data_split, text_data_loader
 
 from .models.context_models import FactorizationMachineModel, FieldAwareFactorizationMachineModel
-from .models.dl_models import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel
+from .models.dl_models import NeuralCollaborativeFiltering, WideAndDeepModel, DeepCrossNetworkModel, FFDCNModel
 from .models.image_models import CNN_FM
 from .models.text_models import DeepCoNN
 
 from .ensembles.ensembles import Ensemble
+
+from .models.BSS_model import FactorizationTextMachineModel

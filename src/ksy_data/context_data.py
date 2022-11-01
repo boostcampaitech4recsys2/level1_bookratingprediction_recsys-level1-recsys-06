@@ -28,6 +28,9 @@ def context_data_load(args):
     location_state2idx = {location_state:idx for idx, location_state in enumerate(data['fix_location_state'].unique())}
     age2idx = {age:idx for idx, age in enumerate(data['fix_age'].unique())}
 
+    idx2user = {id:idx for idx, id in user2idx.items()}
+    idx2isbn = {isbn:idx for idx, isbn in isbn2idx.items()} 
+
     train['user_id'] = train['user_id'].map(user2idx)
     sub['user_id'] = sub['user_id'].map(user2idx)
     test['user_id'] = test['user_id'].map(user2idx)
@@ -66,6 +69,8 @@ def context_data_load(args):
             'test':test.drop(['rating'], axis=1),
             'field_dims':field_dims,
             'sub':sub,
+            'idx2user':idx2user,
+            'idx2isbn':idx2isbn
             }
 
 
