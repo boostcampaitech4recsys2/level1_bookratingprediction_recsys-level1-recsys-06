@@ -37,7 +37,7 @@ def main(args):
         data = text_data_load(args)
     elif args.MODEL == 'FFDCN':
         dataffm = context_data_load(args)
-        datadcn = dl_data_load(args)
+        #datadcn = dl_data_load(args)
     else:
         data = textcon_data_load(args)
         pass
@@ -62,9 +62,9 @@ def main(args):
     elif args.MODEL == 'FFDCN':
         dataffm = context_data_split(args,dataffm)
         dataffm = context_data_loader(args,dataffm)
-        seed_everything(args.SEED)
-        datadcn = dl_data_split(args,datadcn)
-        datadcn = dl_data_loader(args,datadcn)
+        # seed_everything(args.SEED)
+        # datadcn = dl_data_split(args,datadcn)
+        # datadcn = dl_data_loader(args,datadcn)
         
     else:
         data = textcon_data_split(args,data)
@@ -87,7 +87,7 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         model = DeepCoNN(args, data)
     elif args.MODEL=='FFDCN':
-        model = FFDCNModel(args,dataffm,datadcn)
+        model = FFDCNModel(args,dataffm)
     else:
         model = FactorizationTextMachineModel(args, data)
         pass
@@ -105,7 +105,7 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         predicts  = model.predict(data['test_dataloader'])
     elif args.MODEL == 'FFDCN':
-        predicts = model.predict(dataffm['test_dataloader'], datadcn['test_dataloader'])
+        predicts = model.predict(dataffm['test_dataloader'])#, datadcn['test_dataloader'])
     else:
         predicts = model.predict(data['test_dataloader'])
         pass
