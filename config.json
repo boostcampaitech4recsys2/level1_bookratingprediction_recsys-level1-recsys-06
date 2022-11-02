@@ -1,7 +1,7 @@
 {
     "DATA_PATH": "data/",
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "FM",
+    "MODEL": "FFM",
     "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
@@ -10,9 +10,9 @@
     "EPOCHS": 10,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
-    "DEVICE": "cpu",
+    "DEVICE": "cuda",
 
-    "FM_EMBED_DIM": 8,
+    "FM_EMBED_DIM": 3,
 
     "FFM_EMBED_DIM": 8,
 

@@ -96,18 +96,21 @@ def main(args):
         pass
 
     ######################## SAVE PREDICT
-    print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
-    submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'):
-        submission['rating'] = predicts
-    else:
-        pass
+    # print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
+    # submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
+    # if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'):
+    #     submission['rating'] = predicts
+    # else:
+    #     pass
 
-    now = time.localtime()
-    now_date = time.strftime('%Y%m%d', now)
-    now_hour = time.strftime('%X', now)
-    save_time = now_date + '_' + now_hour.replace(':', '')
-    submission.to_csv('submit/{}_{}.csv'.format(save_time, args.MODEL), index=False)
+    # now = time.localtime()
+    # now_date = time.strftime('%Y%m%d', now)
+    # now_hour = time.strftime('%X', now)
+    # save_time = now_date + '_' + now_hour.replace(':', '')
+    # if args.MODEL == 'FM':
+    #     submission.to_csv('submit/{}_{}_{}{}{}{}{}{}{}{}.csv'.format(save_time, args.MODEL, args.USER_N, args.ISBN_N, args.AUTHOR_N, args.PUBLISH_N, args.CATEGORY_N, args.STATE_N, args.COUNTRY_N, args.CITY_N), index=False)
+    # else:
+    #     submission.to_csv('submit/{}_{}.csv'.format(save_time, args.MODEL), index=False)
 
 
 
@@ -170,15 +173,25 @@ if __name__ == "__main__":
     arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
+    ############### HOW COLUMNS OTHER N?
+    arg('--USER_N', type=int, default=5, help='user_id others 기준 N 입력')
+    arg('--ISBN_N', type=int, default=5, help='ISBN others 기준 N 입력')
+    arg('--AUTHOR_N', type=int, default=5, help='AUTHOR others 기준 N 입력')
+    arg('--PUBLISH_N', type=int, default=5, help='PUBLISH others 기준 N 입력')
+    arg('--CATEGORY_N', type=int, default=5, help='CATEGORY others 기준 N 입력')
+    arg('--STATE_N', type=int, default=5, help='STATE others 기준 N 입력')
+    arg('--COUNTRY_N', type=int, default=5, help='COUNTRY others 기준 N 입력')
+    arg('--CITY_N', type=int, default=5, help='CITY others 기준 N 입력')
+
+
     args = parser.parse_args()
 
-    # args.MODEL = 'FM'
-    # args.BATCH_SIZE = 2048
-    # args.EPOCHS = 10
-    if args.config:
-        # config 파일에서 인자 값들을 읽어온다.
-        with open(args.config, 'rt') as f:
-            t_args = argparse.Namespace()
-            t_args.__dict__.update(json.load(f))
-            args = parser.parse_args(namespace=t_args)
+    args.MODEL = 'FM'
+    args.EPOCHS = 10
+    # if args.config:
+    #     # config 파일에서 인자 값들을 읽어온다.
+    #     with open(args.config, 'rt') as f:
+    #         t_args = argparse.Namespace()
+    #         t_args.__dict__.update(json.load(f))
+    #         args = parser.parse_args(namespace=t_args)
     main(args)
