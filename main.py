@@ -173,7 +173,9 @@ if __name__ == "__main__":
 
     ############### DCN
     arg('--DCN_EMBED_DIM', type=int, default=16, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--DCN_MLP_DIMS', type=list, default=(8, 8), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    #arg('--DCN_MLP_DIMS', type=list, default=(8, 8), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    arg('--DCN_MLP_DIM_NUM', type=int, default=8, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    arg('--DCN_MLP_DIM_LAYERS', type=int, default=2, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
     arg('--DCN_DROPOUT', type=float, default=0.2, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
     arg('--DCN_NUM_LAYERS', type=int, default=3, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
 
@@ -195,17 +197,17 @@ if __name__ == "__main__":
     arg('--ISBN_N', type=int, default=20, help='ISBN others 기준 N 입력')
 
     arg('--USER_N_D', type=int, default=2, help='user_id DCN 모델 others 기준 N 입력')
-    arg('--USER_N_F', type=int, default=2, help='ISBN others DCN 모델 기준 N 입력')
+    arg('--USER_N_F', type=int, default=6, help='ISBN others DCN 모델 기준 N 입력')
 
-    arg('--ISBN_N_D', type=int, default=20, help='user_id FFM 모델 others 기준 N 입력')
-    arg('--ISBN_N_F', type=int, default=20, help='ISBN FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_D', type=int, default=16, help='user_id FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_F', type=int, default=30, help='ISBN FFM 모델 others 기준 N 입력')
 
-    arg('--AUTHOR_N', type=int, default=20, help='AUTHOR others 기준 N 입력')
-    arg('--PUBLISH_N', type=int, default=20, help='PUBLISH others 기준 N 입력')
-    arg('--CATEGORY_N', type=int, default=20, help='CATEGORY others 기준 N 입력')
-    arg('--STATE_N', type=int, default=20, help='STATE others 기준 N 입력')
-    arg('--COUNTRY_N', type=int, default=20, help='COUNTRY others 기준 N 입력')
-    arg('--CITY_N', type=int, default=20, help='CITY others 기준 N 입력')
+    arg('--AUTHOR_N', type=int, default=17, help='AUTHOR others 기준 N 입력')
+    arg('--PUBLISH_N', type=int, default=17, help='PUBLISH others 기준 N 입력')
+    arg('--CATEGORY_N', type=int, default=17, help='CATEGORY others 기준 N 입력')
+    arg('--STATE_N', type=int, default=17, help='STATE others 기준 N 입력')
+    arg('--COUNTRY_N', type=int, default=17, help='COUNTRY others 기준 N 입력')
+    arg('--CITY_N', type=int, default=17, help='CITY others 기준 N 입력')
 
 
     args = parser.parse_args()

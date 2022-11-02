@@ -255,7 +255,7 @@ class FFDCNModel:
 
         self.device = args.DEVICE
 
-        self.mlp_dims = args.DCN_MLP_DIMS
+        self.mlp_dims = [args.DCN_MLP_DIM_NUM] * args.DCN_MLP_DIM_LAYERS
         self.dropout = args.DCN_DROPOUT
         self.num_layers = args.DCN_NUM_LAYERS
 

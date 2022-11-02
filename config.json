@@ -25,7 +25,8 @@
     "WDN_DROPOUT": 0.2,
 
     "DCN_EMBED_DIM": 8,
-    "DCN_MLP_DIMS": [8, 8],
+    "DCN_MLP_DIM_NUM": 8,
+    "DCN_MLP_DIM_LAYERS" : 2,
     "DCN_DROPOUT": 0.2,
     "DCN_NUM_LAYERS": 3,
 
