@@ -55,8 +55,11 @@ class Ensemble:
         cold_users = cold_user_set(n)
         cold_books = cold_book_set(n)
         result = []
+        print(n)
         for i, uid, isbn, m1, m2 in self.output_df.itertuples():
-            if uid in cold_users or isbn in cold_books:
+            if m2>10 or 1>m2:
+                result.append(m1)
+            elif uid in cold_users and isbn in cold_books:
                 result.append(m2)
             else:
                 result.append(m1)
