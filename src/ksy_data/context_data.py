@@ -25,14 +25,14 @@ def context_data_load(args):
     
 
     # DCN과 FFM 적용시 Others를 다르게 적용해야해서
-    train['user_id_D'] = train['user_id'].copy()
+    train['user_id_D'] = train['user_id'].copy() # DCN 
     test['user_id_D'] = test['user_id'].copy()
-    train['user_id_F'] = train['user_id'].copy()
+    train['user_id_F'] = train['user_id'].copy() # FFM 
     test['user_id_F'] = test['user_id'].copy()
 
-    train['isbn_D'] = train['isbn'].copy()
+    train['isbn_D'] = train['isbn'].copy() # DCN 
     test['isbn_D'] = test['isbn'].copy()
-    train['isbn_F'] = train['isbn'].copy()
+    train['isbn_F'] = train['isbn'].copy() # FFM
     test['isbn_F'] = test['isbn'].copy()
 
     train.drop(['user_id', 'isbn'], axis = 1, inplace = True)

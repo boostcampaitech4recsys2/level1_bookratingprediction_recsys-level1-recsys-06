@@ -164,46 +164,7 @@ class MultiLayerPerceptron(nn.Module):
         """
         return self.mlp(x)
 
-class _NeuralCollaborativeFiltering(nn.Module):
 
-    def __init__(self, field_dims, user_field_idx, item_field_idx, embed_dim, mlp_dims, dropout):
-        super().__init__()
-        self.user_field_idx = user_field_idx
-        self.item_field_idx = item_field_idx
-        self.embedding = FeaturesEmbedding(field_dims, embed_dim)
-        self.embed_output_dim = len(field_dims) * embed_dim
-        self.mlp = MultiLayerPerceptron(self.embed_output_dim, mlp_dims, dropout, output_layer=False)
-        self.fc = torch.nn.Linear(mlp_dims[-1] + embed_dim, 1)
-
-    def forward(self, x):
-        """
-        :param x: Long tensor of size ``(batch_size, num_user_fields)``
-        """
-        x = self.embedding(x)
-        user_x = x[:, self.user_field_idx].squeeze(1)
-        item_x = x[:, self.item_field_idx].squeeze(1)
-        gmf = user_x * item_x
-        x = self.mlp(x.view(-1, self.embed_output_dim))
-        x = torch.cat([gmf, x], dim=1)
-        x = self.fc(x).squeeze(1)
-        return x
-
-class _WideAndDeepModel(nn.Module):
-
-    def __init__(self, field_dims: np.ndarray, embed_dim: int, mlp_dims: tuple, dropout: float):
-        super().__init__()
-        self.linear = FeaturesLinear(field_dims)
-        self.embedding = FeaturesEmbedding(field_dims, embed_dim)
-        self.embed_output_dim = len(field_dims) * embed_dim
-        self.mlp = MultiLayerPerceptron(self.embed_output_dim, mlp_dims, dropout)
-
-    def forward(self, x: torch.Tensor):
-        """
-        :param x: Long tensor of size ``(batch_size, num_fields)``
-        """
-        embed_x = self.embedding(x)
-        x = self.linear(x) + self.mlp(embed_x.view(-1, self.embed_output_dim))
-        return x.squeeze(1)
 
 class CrossNetwork(nn.Module):
 
@@ -263,10 +224,10 @@ class _FFDCNModel(nn.Module):
     def __init__(self, ff_field_dims: np.ndarray, ff_embed_dim: int, dcn_embed_dim: int, num_layers: int, mlp_dims: tuple, dropout: float):
         super().__init__()
         self.ff_linear = FeaturesLinear(ff_field_dims[2:])
-        self.ffm = FieldAwareFactorizationMachine(ff_field_dims[2:], ff_embed_dim)
-        self.dcn_embedding = FeaturesEmbedding(ff_field_dims[:2], dcn_embed_dim)
+        self.ffm = FieldAwareFactorizationMachine(ff_field_dims[2:], ff_embed_dim) 
+        self.dcn_embedding = FeaturesEmbedding(ff_field_dims[:2], dcn_embed_dim) 
         self.embed_output_dim = len(ff_field_dims[:2]) * dcn_embed_dim
-        self.cn = CrossNetwork(self.embed_output_dim, num_layers)
+        self.cn = CrossNetwork(self.embed_output_dim, num_layers) 
         self.mlp = MultiLayerPerceptron(self.embed_output_dim, mlp_dims, dropout, output_layer=False)
         self.cd_linear = nn.Linear(mlp_dims[0], 1, bias=False)
         self.linear = nn.Linear(2,1,bias=False)
@@ -276,10 +237,10 @@ class _FFDCNModel(nn.Module):
         :param x: Long tensor of size ``(batch_size, num_fields)``
         """
         dcnx = ffx[:,:2]
-        ffm_term = torch.sum(torch.sum(self.ffm(ffx[:,2:]), dim=1), dim=1, keepdim=True)
+        ffm_term = torch.sum(torch.sum(self.ffm(ffx[:,2:]), dim=1), dim=1, keepdim=True) # FFM
         ffx = self.ff_linear(ffx[:,2:]) + ffm_term
-        embed_x = self.dcn_embedding(dcnx).view(-1, self.embed_output_dim)
-        x_l1 = self.cn(embed_x)
+        embed_x = self.dcn_embedding(dcnx).view(-1, self.embed_output_dim) # Embedding
+        x_l1 = self.cn(embed_x) # DCN
         x_out = self.mlp(x_l1)
         p = self.cd_linear(x_out)
         p = self.linear(torch.cat([ffx,p], dim=1))
