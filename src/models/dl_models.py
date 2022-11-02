@@ -1,6 +1,7 @@
 import tqdm
 
 import numpy as np
+import pandas as pd
 
 import torch
 import torch.nn as nn
@@ -242,7 +243,7 @@ class FFDCNModel:
         # self.dcn_valid_dataloader = datadcn['valid_dataloader']
         # self.dcn_field_dims = datadcn['field_dims']
 
-        self.ff_embed_dim = args.FM_EMBED_DIM
+        self.ff_embed_dim = args.FFM_EMBED_DIM
         self.dcn_embed_dim = args.DCN_EMBED_DIM
         self.epochs = args.EPOCHS
         self.learning_rate = args.LR
@@ -250,8 +251,8 @@ class FFDCNModel:
         self.log_interval = 100
 
         self.args = args
-        # self.idx2user = dataffm['idx2user']
-        # self.idx2isbn = dataffm['idx2isbn']
+        self.idx2user = dataffm['idx2user']
+        self.idx2isbn = dataffm['idx2isbn']
 
         self.device = args.DEVICE
 
@@ -292,7 +293,7 @@ class FFDCNModel:
             wandb.log({
             'rmse_score' : rmse_score
             })
-        #self.predict_train(True)
+        self.predict_train(True)
 
 
     def predict_train(self,save=False):
@@ -315,9 +316,9 @@ class FFDCNModel:
                     'isbn':isbns,
                     'target':targets,
                     'rating':predicts})
-                # df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
-                # df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
-                df_valid.sort_values(by='user_id').to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
+                df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
+                df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
+                df_valid.to_csv('valid_1.csv',index=False)
         return rmse(targets, predicts)
 
 

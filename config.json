@@ -7,14 +7,14 @@
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
-    "EPOCHS": 10,
+    "EPOCHS": 5,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
 
     "FM_EMBED_DIM": 3,
 
-    "FFM_EMBED_DIM": 8,
+    "FFM_EMBED_DIM": 4,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],
@@ -24,11 +24,11 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 8,
-    "DCN_MLP_DIM_NUM": 8,
+    "DCN_EMBED_DIM": 4,
+    "DCN_MLP_DIM_NUM": 2,
     "DCN_MLP_DIM_LAYERS" : 2,
-    "DCN_DROPOUT": 0.2,
-    "DCN_NUM_LAYERS": 3,
+    "DCN_DROPOUT": 0.25,
+    "DCN_NUM_LAYERS": 6,
 
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,

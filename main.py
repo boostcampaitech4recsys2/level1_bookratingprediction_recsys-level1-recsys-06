@@ -124,10 +124,7 @@ def main(args):
     now_date = time.strftime('%Y%m%d', now)
     now_hour = time.strftime('%X', now)
     save_time = now_date + '_' + now_hour.replace(':', '')
-    if args.MODEL == 'FFDCN':
-        submission.to_csv('submit/{}_{}_{}{}{}{}{}{}{}{}.csv'.format(save_time, args.MODEL, args.USER_N, args.ISBN_N, args.AUTHOR_N, args.PUBLISH_N, args.CATEGORY_N, args.STATE_N, args.COUNTRY_N, args.CITY_N), index=False)
-    else:
-        submission.to_csv('submit/{}_{}.csv'.format(save_time, args.MODEL), index=False)
+    submission.to_csv('submit/{}_{}.csv'.format(save_time, args.MODEL), index=False)
 
 
 
@@ -156,51 +153,51 @@ if __name__ == "__main__":
     arg('--DEVICE', type=str, default='cuda', choices=['cuda', 'cpu'], help='학습에 사용할 Device를 조정할 수 있습니다.')
 
     ############### FM
-    arg('--FM_EMBED_DIM', type=int, default=16, help='FM에서 embedding시킬 차원을 조정할 수 있습니다.')
+    # arg('--FM_EMBED_DIM', type=int, default=16, help='FM에서 embedding시킬 차원을 조정할 수 있습니다.')
 
     ############### FFM
-    arg('--FFM_EMBED_DIM', type=int, default=16, help='FFM에서 embedding시킬 차원을 조정할 수 있습니다.')
+    arg('--FFM_EMBED_DIM', type=int, default=4, help='FFM에서 embedding시킬 차원을 조정할 수 있습니다.')
 
     ############### NCF
-    arg('--NCF_EMBED_DIM', type=int, default=16, help='NCF에서 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--NCF_MLP_DIMS', type=list, default=(16, 16), help='NCF에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--NCF_DROPOUT', type=float, default=0.2, help='NCF에서 Dropout rate를 조정할 수 있습니다.')
+    # arg('--NCF_EMBED_DIM', type=int, default=16, help='NCF에서 embedding시킬 차원을 조정할 수 있습니다.')
+    # arg('--NCF_MLP_DIMS', type=list, default=(16, 16), help='NCF에서 MLP Network의 차원을 조정할 수 있습니다.')
+    # arg('--NCF_DROPOUT', type=float, default=0.2, help='NCF에서 Dropout rate를 조정할 수 있습니다.')
 
-    ############### WDN
-    arg('--WDN_EMBED_DIM', type=int, default=16, help='WDN에서 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--WDN_MLP_DIMS', type=list, default=(16, 16), help='WDN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--WDN_DROPOUT', type=float, default=0.2, help='WDN에서 Dropout rate를 조정할 수 있습니다.')
+    # ############### WDN
+    # arg('--WDN_EMBED_DIM', type=int, default=16, help='WDN에서 embedding시킬 차원을 조정할 수 있습니다.')
+    # arg('--WDN_MLP_DIMS', type=list, default=(16, 16), help='WDN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    # arg('--WDN_DROPOUT', type=float, default=0.2, help='WDN에서 Dropout rate를 조정할 수 있습니다.')
 
     ############### DCN
-    arg('--DCN_EMBED_DIM', type=int, default=16, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
+    arg('--DCN_EMBED_DIM', type=int, default=10, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
     #arg('--DCN_MLP_DIMS', type=list, default=(8, 8), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--DCN_MLP_DIM_NUM', type=int, default=8, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    arg('--DCN_MLP_DIM_NUM', type=int, default=11, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
     arg('--DCN_MLP_DIM_LAYERS', type=int, default=2, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--DCN_DROPOUT', type=float, default=0.2, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
-    arg('--DCN_NUM_LAYERS', type=int, default=3, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
+    arg('--DCN_DROPOUT', type=float, default=0.35, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
+    arg('--DCN_NUM_LAYERS', type=int, default=1, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
 
     ############### CNN_FM
-    arg('--CNN_FM_EMBED_DIM', type=int, default=128, help='CNN_FM에서 user와 item에 대한 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--CNN_FM_LATENT_DIM', type=int, default=8, help='CNN_FM에서 user/item/image에 대한 latent 차원을 조정할 수 있습니다.')
+    # arg('--CNN_FM_EMBED_DIM', type=int, default=128, help='CNN_FM에서 user와 item에 대한 embedding시킬 차원을 조정할 수 있습니다.')
+    # arg('--CNN_FM_LATENT_DIM', type=int, default=8, help='CNN_FM에서 user/item/image에 대한 latent 차원을 조정할 수 있습니다.')
 
     ############### DeepCoNN
-    arg('--DEEPCONN_VECTOR_CREATE', type=bool, default=False, help='DEEP_CONN에서 text vector 생성 여부를 조정할 수 있으며 최초 학습에만 True로 설정하여야합니다.')
-    arg('--DEEPCONN_EMBED_DIM', type=int, default=32, help='DEEP_CONN에서 user와 item에 대한 embedding시킬 차원을 조정할 수 있습니다.')
-    arg('--DEEPCONN_LATENT_DIM', type=int, default=10, help='DEEP_CONN에서 user/item/image에 대한 latent 차원을 조정할 수 있습니다.')
-    arg('--DEEPCONN_CONV_1D_OUT_DIM', type=int, default=50, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
-    arg('--DEEPCONN_KERNEL_SIZE', type=int, default=3, help='DEEP_CONN에서 1D conv의 kernel 크기를 조정할 수 있습니다.')
-    arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
-    arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
+    # arg('--DEEPCONN_VECTOR_CREATE', type=bool, default=False, help='DEEP_CONN에서 text vector 생성 여부를 조정할 수 있으며 최초 학습에만 True로 설정하여야합니다.')
+    # arg('--DEEPCONN_EMBED_DIM', type=int, default=32, help='DEEP_CONN에서 user와 item에 대한 embedding시킬 차원을 조정할 수 있습니다.')
+    # arg('--DEEPCONN_LATENT_DIM', type=int, default=10, help='DEEP_CONN에서 user/item/image에 대한 latent 차원을 조정할 수 있습니다.')
+    # arg('--DEEPCONN_CONV_1D_OUT_DIM', type=int, default=50, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
+    # arg('--DEEPCONN_KERNEL_SIZE', type=int, default=3, help='DEEP_CONN에서 1D conv의 kernel 크기를 조정할 수 있습니다.')
+    # arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
+    # arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
     ############### HOW COLUMNS OTHER N?
-    arg('--USER_N', type=int, default=2, help='user_id others 기준 N 입력')
-    arg('--ISBN_N', type=int, default=20, help='ISBN others 기준 N 입력')
+    #arg('--USER_N', type=int, default=2, help='user_id others 기준 N 입력')
+    #arg('--ISBN_N', type=int, default=20, help='ISBN others 기준 N 입력')
 
     arg('--USER_N_D', type=int, default=2, help='user_id DCN 모델 others 기준 N 입력')
     arg('--USER_N_F', type=int, default=6, help='ISBN others DCN 모델 기준 N 입력')
 
-    arg('--ISBN_N_D', type=int, default=16, help='user_id FFM 모델 others 기준 N 입력')
-    arg('--ISBN_N_F', type=int, default=30, help='ISBN FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_D', type=int, default=20, help='user_id FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_F', type=int, default=40, help='ISBN FFM 모델 others 기준 N 입력')
 
     arg('--AUTHOR_N', type=int, default=17, help='AUTHOR others 기준 N 입력')
     arg('--PUBLISH_N', type=int, default=17, help='PUBLISH others 기준 N 입력')
@@ -213,7 +210,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     args.MODEL = 'FFDCN'
-    args.EPOCHS = 5
+    args.EPOCHS = 7
     args.DEVICE = 'cuda'
     # if args.config:
     #     # config 파일에서 인자 값들을 읽어온다.
@@ -221,4 +218,5 @@ if __name__ == "__main__":
     #         t_args = argparse.Namespace()
     #         t_args.__dict__.update(json.load(f))
     #         args = parser.parse_args(namespace=t_args)
+
     main(args)

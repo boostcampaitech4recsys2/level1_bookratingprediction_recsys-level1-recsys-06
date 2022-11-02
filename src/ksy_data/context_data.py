@@ -22,7 +22,7 @@ def context_data_load(args):
     train = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
     test = pd.read_csv(args.DATA_PATH + 'ksy_test_rating_fianl1.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    
+
 
     # DCN과 FFM 적용시 Others를 다르게 적용해야해서
     train['user_id_D'] = train['user_id'].copy()
@@ -61,8 +61,8 @@ def context_data_load(args):
     user2Fidx = {id:idx for idx, id in enumerate(_data['user_id_F'].unique())}
     isbn2Fidx = {isbn:idx for idx, isbn in enumerate(_data['isbn_F'].unique())}
 
-    # idx2user = {idx:id for idx, id in enumerate(_data['user_id'].unique())}
-    # idx2isbn = {idx:isbn for idx, isbn in enumerate(_data['isbn'].unique())}
+    idx2user2D = {idx:id for idx, id in enumerate(_data['user_id_D'].unique())}
+    idx2isbn2D = {idx:isbn for idx, isbn in enumerate(_data['isbn_D'].unique())}
 
     author2idx = {author:idx for idx, author in enumerate(_data['book_author'].unique())}
     publisher2idx = {publisher:idx for idx, publisher in enumerate(_data['publisher'].unique())}
@@ -126,8 +126,8 @@ def context_data_load(args):
             'test':test.drop(['rating'], axis=1),
             'field_dims':field_dims,
             'sub':sub,
-            # 'idx2user':idx2user,
-            # 'idx2isbn':idx2isbn,
+            'idx2user':idx2user2D,
+            'idx2isbn':idx2isbn2D,
             }
 
 
@@ -152,7 +152,7 @@ def context_data_loader(args, data):
     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
 
     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
-    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
