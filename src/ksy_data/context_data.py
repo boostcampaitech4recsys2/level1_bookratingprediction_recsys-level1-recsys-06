@@ -6,7 +6,16 @@ import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader, Dataset
 
 
-def make_others(train, test, _column, n):
+def make_others(data_f, _column, n):
+
+    tem = pd.DataFrame(data_f[_column].value_counts()).reset_index()
+    tem.columns = ['names','count']
+    others_list = tem[tem['count'] <= n]['names'].values  # n은 초기에 설정함. 바꿀 수 있음.
+    data_f.loc[data_f[data_f[_column].isin(others_list)].index, _column]= 'otehrs'
+    return data_f
+
+
+def make_others2(train, test, _column, n):
 
     tem = pd.DataFrame(train[_column].value_counts()).reset_index()
     tem.columns = ['names','count']
@@ -19,10 +28,35 @@ def make_others(train, test, _column, n):
 def context_data_load(args):
 
     ######################## DATA LOAD
-    train = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
-    test = pd.read_csv(args.DATA_PATH + 'ksy_test_rating_fianl1.csv')
+    users = pd.read_csv(args.DATA_PATH + 'ksy_users_fianl2.csv')
+    books = pd.read_csv(args.DATA_PATH + 'ksy_books_fianl2.csv')
+    train = pd.read_csv(args.DATA_PATH + 'train_ratings.csv')
+    test = pd.read_csv(args.DATA_PATH + 'test_ratings.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
 
+    users = make_others(users, 'location_city', args.CITY_N)
+    users = make_others(users, 'location_state', args.STATE_N)
+    users = make_others(users, 'location_country', args.COUNTRY_N)
+
+    books = make_others(books, 'book_author', args.AUTHOR_N)
+    books = make_others(books, 'publisher', args.PUBLISH_N)
+    books = make_others(books, 'category_high', args.CATEGORY_N)
+
+    train = pd.merge(train,books, how='right',on='isbn')
+    train.dropna(subset=['rating'], inplace = True)
+    train = pd.merge(train, users, how='right',on='user_id')
+    train.dropna(subset=['rating'], inplace = True)
+
+    test['index'] = test.index
+    test = pd.merge(test,books, how='right',on='isbn')
+    test.dropna(subset=['rating'], inplace = True)
+    test = pd.merge(test, users, how='right',on='user_id')
+    test.dropna(subset=['rating'], inplace = True)
+    test = test.sort_values('index')
+    test.drop(['index'], axis=1, inplace=True)
+
+    print(train.shape)
+    print(test.head(3))
 
     # DCN과 FFM 적용시 Others를 다르게 적용해야해서
     train['user_id_D'] = train['user_id'].copy()
@@ -39,18 +73,11 @@ def context_data_load(args):
     test.drop(['user_id', 'isbn'], axis = 1, inplace = True)
 
     # others 삽입
-    train, test = make_others(train, test, 'user_id_D', args.USER_N_D)
-    train, test = make_others(train, test, 'user_id_F', args.USER_N_F)
+    train, test = make_others2(train, test, 'user_id_D', args.USER_N_D)
+    train, test = make_others2(train, test, 'user_id_F', args.USER_N_F)
     
-    train, test = make_others(train, test, 'isbn_D', args.ISBN_N_D)
-    train, test = make_others(train, test, 'isbn_F', args.ISBN_N_F)
-
-    train, test = make_others(train, test, 'book_author', args.AUTHOR_N)
-    train, test = make_others(train, test, 'publisher', args.PUBLISH_N)
-    train, test = make_others(train, test, 'category_high', args.CATEGORY_N)
-    train, test = make_others(train, test, 'location_state', args.STATE_N)
-    train, test = make_others(train, test, 'location_country', args.COUNTRY_N)
-    train, test = make_others(train, test, 'location_city', args.CITY_N)
+    train, test = make_others2(train, test, 'isbn_D', args.ISBN_N_D)
+    train, test = make_others2(train, test, 'isbn_F', args.ISBN_N_F)
 
     _data = pd.concat([train, test])
 
