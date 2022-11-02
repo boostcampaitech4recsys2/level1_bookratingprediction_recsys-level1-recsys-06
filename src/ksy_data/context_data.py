@@ -130,7 +130,6 @@ def context_data_load(args):
             'idx2isbn':idx2isbn2D,
             }
 
-
     return data
 
 # 데이터 split
@@ -146,27 +145,27 @@ def context_data_split(args, data):
     return data
 
 # 데이터 로더
-def context_data_loader(args, data):
-    train_dataset = TensorDataset(torch.LongTensor(data['X_train'].values), torch.LongTensor(data['y_train'].values))
-    valid_dataset = TensorDataset(torch.LongTensor(data['X_valid'].values), torch.LongTensor(data['y_valid'].values))
-    test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
-
-    train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
-    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
-    test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
-
-    data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
-
-    return data
-
-# valid 없이 가보자.
 # def context_data_loader(args, data):
-#     train_dataset = TensorDataset(torch.LongTensor(data['train'].drop(['rating'], axis=1).values), torch.LongTensor(data['rating'].values))
+#     train_dataset = TensorDataset(torch.LongTensor(data['X_train'].values), torch.LongTensor(data['y_train'].values))
+#     valid_dataset = TensorDataset(torch.LongTensor(data['X_valid'].values), torch.LongTensor(data['y_valid'].values))
 #     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
 
 #     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+#     valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 #     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
-#     data['train_dataloader'], data['test_dataloader'] = train_dataloader, test_dataloader
+#     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
 
 #     return data
+
+#valid 없이 가보자.
+def context_data_loader(args, data):
+    train_dataset = TensorDataset(torch.LongTensor(data['train'].drop(['rating'], axis=1).values), torch.LongTensor(data['train']['rating'].values))
+    test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
+
+    train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+    test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
+
+    data['train_dataloader'], data['test_dataloader'] = train_dataloader, test_dataloader
+
+    return data
