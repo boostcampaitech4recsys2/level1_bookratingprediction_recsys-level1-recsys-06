@@ -20,14 +20,31 @@ def context_data_load(args):
 
     ######################## DATA LOAD
     train = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
-    test = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
+    test = pd.read_csv(args.DATA_PATH + 'ksy_test_rating_fianl1.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
 
-    _data = pd.concat([train, test])
-    
+
+     # DCN과 FFM 적용시 Others를 다르게 적용해야해서
+    train['user_id_D'] = train['user_id'].copy()
+    test['user_id_D'] = test['user_id'].copy()
+    train['user_id_F'] = train['user_id'].copy()
+    test['user_id_F'] = test['user_id'].copy()
+
+    train['isbn_D'] = train['isbn'].copy()
+    test['isbn_D'] = test['isbn'].copy()
+    train['isbn_F'] = train['isbn'].copy()
+    test['isbn_F'] = test['isbn'].copy()
+
+    train.drop(['user_id', 'isbn'], axis = 1, inplace = True)
+    test.drop(['user_id', 'isbn'], axis = 1, inplace = True)
+
     # others 삽입
-    train, test = make_others(train, test, 'user_id', args.USER_N)
-    train, test = make_others(train, test, 'isbn', args.ISBN_N)
+    train, test = make_others(train, test, 'user_id_D', args.USER_N_D)
+    train, test = make_others(train, test, 'user_id_F', args.USER_N_F)
+    
+    train, test = make_others(train, test, 'isbn_D', args.ISBN_N_D)
+    train, test = make_others(train, test, 'isbn_F', args.ISBN_N_F)
+
     train, test = make_others(train, test, 'book_author', args.AUTHOR_N)
     train, test = make_others(train, test, 'publisher', args.PUBLISH_N)
     train, test = make_others(train, test, 'category_high', args.CATEGORY_N)
@@ -35,9 +52,17 @@ def context_data_load(args):
     train, test = make_others(train, test, 'location_country', args.COUNTRY_N)
     train, test = make_others(train, test, 'location_city', args.CITY_N)
 
+    _data = pd.concat([train, test])
+
     ### 라벨 인코딩 과정
-    user2idx = {id:idx for idx, id in enumerate(_data['user_id'].unique())}
-    isbn2idx = {isbn:idx for idx, isbn in enumerate(_data['isbn'].unique())}
+    user2Didx = {id:idx for idx, id in enumerate(_data['user_id_D'].unique())}
+    isbn2Didx = {isbn:idx for idx, isbn in enumerate(_data['isbn_D'].unique())}
+
+    user2Fidx = {id:idx for idx, id in enumerate(_data['user_id_F'].unique())}
+    isbn2Fidx = {isbn:idx for idx, isbn in enumerate(_data['isbn_F'].unique())}
+
+    # idx2user = {idx:id for idx, id in enumerate(_data['user_id'].unique())}
+    # idx2isbn = {idx:isbn for idx, isbn in enumerate(_data['isbn'].unique())}
 
     author2idx = {author:idx for idx, author in enumerate(_data['book_author'].unique())}
     publisher2idx = {publisher:idx for idx, publisher in enumerate(_data['publisher'].unique())}
@@ -49,13 +74,17 @@ def context_data_load(args):
     location_country2idx = {location_country:idx for idx, location_country in enumerate(_data['location_country'].unique())}
     age2idx = {age:idx for idx, age in enumerate(_data['fix_age'].unique())}
 
-    train['user_id'] = train['user_id'].map(user2idx)
-    sub['user_id'] = sub['user_id'].map(user2idx)
-    test['user_id'] = test['user_id'].map(user2idx)
+    train['user_id_D'] = train['user_id_D'].map(user2Didx)
+    train['user_id_F'] = train['user_id_F'].map(user2Fidx)
+    #sub['user_id'] = sub['user_id'].map(user2idx)
+    test['user_id_D'] = test['user_id_D'].map(user2Didx)
+    test['user_id_F'] = test['user_id_F'].map(user2Fidx)
 
-    train['isbn'] = train['isbn'].map(isbn2idx)
-    sub['isbn'] = sub['isbn'].map(isbn2idx)
-    test['isbn'] = test['isbn'].map(isbn2idx)
+    train['isbn_D'] = train['isbn_D'].map(isbn2Didx)
+    train['isbn_F'] = train['isbn_F'].map(isbn2Fidx)
+    #sub['isbn'] = sub['isbn'].map(isbn2idx)
+    test['isbn_D'] = test['isbn_D'].map(isbn2Didx)
+    test['isbn_F'] = test['isbn_F'].map(isbn2Fidx)
 
     train['book_author'] = train['book_author'].map(author2idx)
     test['book_author'] = test['book_author'].map(author2idx)
@@ -84,16 +113,21 @@ def context_data_load(args):
     train['fix_age'] = train['fix_age'].map(age2idx)
     test['fix_age'] = test['fix_age'].map(age2idx)
 
-    field_dims = np.array([len(user2idx), len(isbn2idx), len(author2idx),
+    train = train[['user_id_D','isbn_D','user_id_F','isbn_F','book_author','publisher','language','category_high','years','location_city','location_state','location_country','fix_age','rating']]
+    test = test[['user_id_D','isbn_D','user_id_F','isbn_F','book_author','publisher','language','category_high','years','location_city','location_state','location_country','fix_age','rating']]
+    field_dims = np.array([len(user2Didx), len(isbn2Didx), len(user2Fidx), len(isbn2Fidx), len(author2idx),
                             len(publisher2idx), len(language2idx), len(category2idx),
-                            len(year2idx), len(location_state2idx), len(location_city2idx), 
+                            len(year2idx), len(location_city2idx), len(location_state2idx), 
                             len(location_country2idx), len(age2idx)], dtype=np.uint32)
+
 
     data = {
             'train':train,
             'test':test.drop(['rating'], axis=1),
             'field_dims':field_dims,
             'sub':sub,
+            # 'idx2user':idx2user,
+            # 'idx2isbn':idx2isbn,
             }
 
 

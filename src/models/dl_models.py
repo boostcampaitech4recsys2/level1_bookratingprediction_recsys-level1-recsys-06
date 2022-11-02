@@ -6,6 +6,7 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import wandb
 
 from ._models import _NeuralCollaborativeFiltering, _WideAndDeepModel, _DeepCrossNetworkModel, _FFDCNModel
 from ._models import rmse, RMSELoss
@@ -249,8 +250,8 @@ class FFDCNModel:
         self.log_interval = 100
         
         self.args = args
-        self.idx2user = dataffm['idx2user']
-        self.idx2isbn = dataffm['idx2isbn']
+        # self.idx2user = dataffm['idx2user']
+        # self.idx2isbn = dataffm['idx2isbn']
 
         self.device = args.DEVICE
 
@@ -264,6 +265,12 @@ class FFDCNModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        wandb.init(project='level1_bookratingprediction_recsys-level1-recsys-06', entity='thumbs-up')
+        wandb.config.update({
+            "batch_size" : self.args.BATCH_SIZE,
+            "epochs": self.args.EPOCHS,
+            # "optimizer": self.args.optimizer
+        })
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -282,6 +289,9 @@ class FFDCNModel:
 
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
+            wandb.log({
+                'rmse_score' : rmse_score
+            })
         #self.predict_train(True)
 
 

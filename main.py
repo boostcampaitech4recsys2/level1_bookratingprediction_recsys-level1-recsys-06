@@ -5,8 +5,8 @@ import pandas as pd
 
 from src import seed_everything
 
-from src.data import context_data_load, context_data_split, context_data_loader
-#from src.ksy_data import context_data_load, context_data_split, context_data_loader
+#from src.data import context_data_load, context_data_split, context_data_loader
+from src.ksy_data import context_data_load, context_data_split, context_data_loader
 from src.data import dl_data_load, dl_data_split, dl_data_loader
 from src.data import image_data_load, image_data_split, image_data_loader
 from src.data import text_data_load, text_data_split, text_data_loader
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     
     ############### TRAINING OPTION
     arg('--BATCH_SIZE', type=int, default=1024, help='Batch size를 조정할 수 있습니다.')
-    arg('--EPOCHS', type=int, default=20, help='Epoch 수를 조정할 수 있습니다.')
+    arg('--EPOCHS', type=int, default=7, help='Epoch 수를 조정할 수 있습니다.')
     arg('--LR', type=float, default=1e-3, help='Learning Rate를 조정할 수 있습니다.')
     arg('--WEIGHT_DECAY', type=float, default=1e-6, help='Adam optimizer에서 정규화에 사용하는 값을 조정할 수 있습니다.')
 
@@ -186,6 +186,26 @@ if __name__ == "__main__":
     arg('--DEEPCONN_WORD_DIM', type=int, default=768, help='DEEP_CONN에서 1D conv의 입력 크기를 조정할 수 있습니다.')
     arg('--DEEPCONN_OUT_DIM', type=int, default=32, help='DEEP_CONN에서 1D conv의 출력 크기를 조정할 수 있습니다.')
 
+    ############### HOW COLUMNS OTHER N?
+    arg('--USER_N', type=int, default=2, help='user_id others 기준 N 입력')
+    arg('--ISBN_N', type=int, default=20, help='ISBN others 기준 N 입력')
+
+    arg('--USER_N_D', type=int, default=2, help='user_id DCN 모델 others 기준 N 입력')
+    arg('--USER_N_F', type=int, default=2, help='ISBN others DCN 모델 기준 N 입력')
+
+    arg('--ISBN_N_D', type=int, default=20, help='user_id FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_F', type=int, default=20, help='ISBN FFM 모델 others 기준 N 입력')
+
+    arg('--AUTHOR_N', type=int, default=20, help='AUTHOR others 기준 N 입력')
+    arg('--PUBLISH_N', type=int, default=20, help='PUBLISH others 기준 N 입력')
+    arg('--CATEGORY_N', type=int, default=20, help='CATEGORY others 기준 N 입력')
+    arg('--STATE_N', type=int, default=20, help='STATE others 기준 N 입력')
+    arg('--COUNTRY_N', type=int, default=20, help='COUNTRY others 기준 N 입력')
+    arg('--CITY_N', type=int, default=20, help='CITY others 기준 N 입력')
+
+    arg('--DCN_MLP_LAYERS_N', type=int, default=2, help='DCN 모델의 MLP 레이어 개수')
+    arg('--DCN_MLP_NUM', type=int, default=2, help='DCN 모델의 MLP 레이어의 크기')
+
     args = parser.parse_args()
 
     if args.config:
@@ -194,5 +214,9 @@ if __name__ == "__main__":
             t_args = argparse.Namespace()
             t_args.__dict__.update(json.load(f))
             args = parser.parse_args(namespace=t_args)
-    
+    args.MODEL = 'FFDCN'
+    #args.EPOCHS = 5
+    #args.DCN_MLP_DIMS = [13,13,13]
+    #args.WEIGHT_DECAY = 1.0216921879280201e-06
+    #args.DCN_MLP_DIMS = [args.DCN_MLP_NUM] * args.DCN_MLP_LAYERS_N
     main(args)

@@ -6,15 +6,15 @@
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
-    "BATCH_SIZE": 285,
-    "EPOCHS": 1,
-    "LR": 0.013443086218318304,
-    "WEIGHT_DECAY": 1.0216921879280201e-06,
+    "BATCH_SIZE": 1024,
+    "EPOCHS": 5,
+    "LR": 0.001,
+    "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
 
     "FM_EMBED_DIM": 8,
 
-    "FFM_EMBED_DIM": 23,
+    "FFM_EMBED_DIM": 4,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],
@@ -24,10 +24,10 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 16,
-    "DCN_MLP_DIMS": [13,13,13],
-    "DCN_DROPOUT": 0.2,
-    "DCN_NUM_LAYERS": 3,
+    "DCN_EMBED_DIM": 5,
+    "DCN_MLP_DIMS": [12, 12],
+    "DCN_DROPOUT": 0.35,
+    "DCN_NUM_LAYERS": 1,
 
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,
@@ -40,5 +40,21 @@
     "DEEPCONN_WORD_DIM": 16,
     "DEEPCONN_OUT_DIM": 32,
 
-    "Wandb_name" : "BSS_FM_TEXT_1"
+    "Wandb_name" : "BSS_FFDCN_1",
+
+    "USER_N": -1,
+    "ISBN_N": -1,
+
+    "USER_N_D": 2,
+    "USER_N_F": 4,
+    
+    "ISBN_N_D": 12,
+    "ISBN_N_F": 45,
+
+    "AUTHOR_N": 17,
+    "PUBLISH_N": 17,
+    "CATEGORY_N": 17,
+    "STATE_N": 17,
+    "COUNTRY_N": 17,
+    "CITY_N": 17
 }
