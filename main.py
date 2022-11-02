@@ -203,8 +203,8 @@ if __name__ == "__main__":
     arg('--COUNTRY_N', type=int, default=20, help='COUNTRY others 기준 N 입력')
     arg('--CITY_N', type=int, default=20, help='CITY others 기준 N 입력')
 
-    arg('--DCN_MLP_LAYERS_N', type=int, default=2, help='DCN 모델의 MLP 레이어 개수')
-    arg('--DCN_MLP_NUM', type=int, default=2, help='DCN 모델의 MLP 레이어의 크기')
+    arg('--DCN_MLP_DIM_LAYERS', type=int, default=2, help='DCN 모델의 MLP 레이어 개수')
+    arg('--DCN_MLP_DIM_NUM', type=int, default=2, help='DCN 모델의 MLP 레이어의 크기')
 
     args = parser.parse_args()
 
@@ -218,5 +218,5 @@ if __name__ == "__main__":
     #args.EPOCHS = 5
     #args.DCN_MLP_DIMS = [13,13,13]
     #args.WEIGHT_DECAY = 1.0216921879280201e-06
-    #args.DCN_MLP_DIMS = [args.DCN_MLP_NUM] * args.DCN_MLP_LAYERS_N
+    #args.DCN_MLP_DIMS = [args.DCN_MLP_DIM_NUM] * args.DCN_MLP_DIM_LAYERS
     main(args)

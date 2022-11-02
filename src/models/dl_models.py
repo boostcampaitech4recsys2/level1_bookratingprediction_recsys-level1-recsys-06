@@ -242,7 +242,7 @@ class FFDCNModel:
         # self.dcn_valid_dataloader = datadcn['valid_dataloader']
         # self.dcn_field_dims = datadcn['field_dims']
 
-        self.ff_embed_dim = args.FM_EMBED_DIM
+        self.ff_embed_dim = args.FFM_EMBED_DIM
         self.dcn_embed_dim = args.DCN_EMBED_DIM
         self.epochs = args.EPOCHS
         self.learning_rate = args.LR

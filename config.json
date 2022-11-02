@@ -2,19 +2,19 @@
     "DATA_PATH": "data/",
     "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
     "MODEL": "FFDCN",
-    "DATA_SHUFFLE": false,
+    "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
-    "BATCH_SIZE": 1024,
+    "BATCH_SIZE": 544,
     "EPOCHS": 5,
     "LR": 0.001,
-    "WEIGHT_DECAY": 1e-06,
+    "WEIGHT_DECAY": 4.123206532618725e-06,
     "DEVICE": "cuda",
 
     "FM_EMBED_DIM": 8,
 
-    "FFM_EMBED_DIM": 4,
+    "FFM_EMBED_DIM": 13,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],
@@ -24,10 +24,12 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 5,
-    "DCN_MLP_DIMS": [12, 12],
+    "DCN_EMBED_DIM": 4,
+    "DCN_MLP_DIM_LAYERS": 2,
+    "DCN_MLP_DIM_NUM": 2,
+    "DCN_MLP_DIMS": [3],
     "DCN_DROPOUT": 0.35,
-    "DCN_NUM_LAYERS": 1,
+    "DCN_NUM_LAYERS": 4,
 
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,
@@ -46,10 +48,10 @@
     "ISBN_N": -1,
 
     "USER_N_D": 2,
-    "USER_N_F": 4,
+    "USER_N_F": 7,
     
-    "ISBN_N_D": 12,
-    "ISBN_N_F": 45,
+    "ISBN_N_D": 25,
+    "ISBN_N_F": 28,
 
     "AUTHOR_N": 17,
     "PUBLISH_N": 17,
