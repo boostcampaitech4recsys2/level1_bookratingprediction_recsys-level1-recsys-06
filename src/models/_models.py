@@ -260,23 +260,24 @@ class _FFDCNModel(nn.Module):
         R Wang, et al. Deep & Cross Network for Ad Click Predictions, 2017.
     """
 
-    def __init__(self, ff_field_dims: np.ndarray, dcn_field_dims: np.ndarray, ff_embed_dim: int, dcn_embed_dim: int, num_layers: int, mlp_dims: tuple, dropout: float):
+    def __init__(self, ff_field_dims: np.ndarray, ff_embed_dim: int, dcn_embed_dim: int, num_layers: int, mlp_dims: tuple, dropout: float):
         super().__init__()
-        self.ff_linear = FeaturesLinear(ff_field_dims)
-        self.ffm = FieldAwareFactorizationMachine(ff_field_dims, ff_embed_dim)
-        self.dcn_embedding = FeaturesEmbedding(dcn_field_dims, dcn_embed_dim)
-        self.embed_output_dim = len(dcn_field_dims) * dcn_embed_dim
+        self.ff_linear = FeaturesLinear(ff_field_dims[2:])
+        self.ffm = FieldAwareFactorizationMachine(ff_field_dims[2:], ff_embed_dim)
+        self.dcn_embedding = FeaturesEmbedding(ff_field_dims[:2], dcn_embed_dim)
+        self.embed_output_dim = len(ff_field_dims[:2]) * dcn_embed_dim
         self.cn = CrossNetwork(self.embed_output_dim, num_layers)
         self.mlp = MultiLayerPerceptron(self.embed_output_dim, mlp_dims, dropout, output_layer=False)
         self.cd_linear = nn.Linear(mlp_dims[0], 1, bias=False)
         self.linear = nn.Linear(2,1,bias=False)
 
-    def forward(self, ffx: torch.Tensor, dcnx: torch.Tensor):
+    def forward(self, ffx: torch.Tensor):
         """
         :param x: Long tensor of size ``(batch_size, num_fields)``
         """
-        ffm_term = torch.sum(torch.sum(self.ffm(ffx), dim=1), dim=1, keepdim=True)
-        ffx = self.ff_linear(ffx) + ffm_term
+        dcnx = ffx[:,:2]
+        ffm_term = torch.sum(torch.sum(self.ffm(ffx[:,2:]), dim=1), dim=1, keepdim=True)
+        ffx = self.ff_linear(ffx[:,2:]) + ffm_term
         embed_x = self.dcn_embedding(dcnx).view(-1, self.embed_output_dim)
         x_l1 = self.cn(embed_x)
         x_out = self.mlp(x_l1)

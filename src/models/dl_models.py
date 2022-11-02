@@ -9,6 +9,8 @@ import torch.optim as optim
 from ._models import _NeuralCollaborativeFiltering, _WideAndDeepModel, _DeepCrossNetworkModel, _FFDCNModel
 from ._models import rmse, RMSELoss
 
+import wandb
+
 class NeuralCollaborativeFiltering:
 
     def __init__(self, args, data):
@@ -228,7 +230,7 @@ class DeepCrossNetworkModel:
 
 class FFDCNModel:
 
-    def __init__(self, args, dataffm, datadcn):
+    def __init__(self, args, dataffm):
         super().__init__()
 
         self.criterion = RMSELoss()
@@ -236,9 +238,9 @@ class FFDCNModel:
         self.ff_train_dataloader = dataffm['train_dataloader']
         self.ff_valid_dataloader = dataffm['valid_dataloader']
         self.ff_field_dims = dataffm['field_dims']
-        self.dcn_train_dataloader = datadcn['train_dataloader']
-        self.dcn_valid_dataloader = datadcn['valid_dataloader']
-        self.dcn_field_dims = datadcn['field_dims']
+        # self.dcn_train_dataloader = datadcn['train_dataloader']
+        # self.dcn_valid_dataloader = datadcn['valid_dataloader']
+        # self.dcn_field_dims = datadcn['field_dims']
 
         self.ff_embed_dim = args.FM_EMBED_DIM
         self.dcn_embed_dim = args.DCN_EMBED_DIM
@@ -248,8 +250,8 @@ class FFDCNModel:
         self.log_interval = 100
 
         self.args = args
-        self.idx2user = dataffm['idx2user']
-        self.idx2isbn = dataffm['idx2isbn']
+        # self.idx2user = dataffm['idx2user']
+        # self.idx2isbn = dataffm['idx2isbn']
 
         self.device = args.DEVICE
 
@@ -257,26 +259,24 @@ class FFDCNModel:
         self.dropout = args.DCN_DROPOUT
         self.num_layers = args.DCN_NUM_LAYERS
 
-        self.model = _FFDCNModel(self.ff_field_dims, self.dcn_field_dims, self.ff_embed_dim, self.dcn_embed_dim, num_layers=self.num_layers, mlp_dims=self.mlp_dims, dropout=self.dropout).to(self.device)
+        self.model = _FFDCNModel(self.ff_field_dims, self.ff_embed_dim, self.dcn_embed_dim, num_layers=self.num_layers, mlp_dims=self.mlp_dims, dropout=self.dropout).to(self.device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
+        wandb.init()
+        wandb.config.update({
+            "batch_size" : self.args.BATCH_SIZE,
+            "epochs": self.args.EPOCHS,
+        })
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
-            tk0 = tqdm.tqdm(zip(self.ff_train_dataloader,self.dcn_train_dataloader), smoothing=0, mininterval=1.0)
-            for i, data in enumerate(tk0):
-                ffdata, dcndata = data
-                # print(ffdata)
-                # print(dcndata)
-                # raise Exception("Done")
-
-                ff_fields, target = ffdata
-                dcn_fields, target = dcndata
-                ff_fields, dcn_fields, target = ff_fields.to(self.device), dcn_fields.to(self.device), target.to(self.device)
-                y = self.model(ff_fields,dcn_fields)
+            tk0 = tqdm.tqdm(self.ff_train_dataloader, smoothing=0, mininterval=1.0)
+            for i, (ff_fields, target) in enumerate(tk0):
+                ff_fields, target = ff_fields.to(self.device), target.to(self.device)
+                y = self.model(ff_fields)
                 loss = self.criterion(y, target.float())
                 self.model.zero_grad()
                 loss.backward()
@@ -288,6 +288,10 @@ class FFDCNModel:
 
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
+
+            wandb.log({
+            'rmse_score' : rmse_score
+            })
         #self.predict_train(True)
 
 
@@ -296,12 +300,9 @@ class FFDCNModel:
         targets, predicts = list(), list()
         users, isbns = np.array([]),np.array([])
         with torch.no_grad():
-            for data in tqdm.tqdm(zip(self.ff_valid_dataloader,self.dcn_valid_dataloader), smoothing=0, mininterval=1.0):
-                ffdata, dcndata = data
-                ff_fields, target = ffdata
-                dcn_fields, target = dcndata
-                ff_fields, dcn_fields, target = ff_fields.to(self.device), dcn_fields.to(self.device), target.to(self.device)
-                y = self.model(ff_fields, dcn_fields)
+            for ff_fields, target in tqdm.tqdm(self.ff_valid_dataloader, smoothing=0, mininterval=1.0):
+                ff_fields, target = ff_fields.to(self.device), target.to(self.device)
+                y = self.model(ff_fields)
                 targets.extend(target.tolist())
                 predicts.extend(y.tolist())
                 if save:
@@ -314,19 +315,18 @@ class FFDCNModel:
                     'isbn':isbns,
                     'target':targets,
                     'rating':predicts})
-                df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
-                df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
+                # df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
+                # df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
                 df_valid.sort_values(by='user_id').to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
         return rmse(targets, predicts)
 
 
-    def predict(self, ff_dataloader, dcn_dataloader):
+    def predict(self, ff_dataloader):
         self.model.eval()
         predicts = list()
         with torch.no_grad():
-            for data in tqdm.tqdm(zip(ff_dataloader, dcn_dataloader), smoothing=0, mininterval=1.0):
-                ff_fields, dcn_fields = data
-                ff_fields, dcn_fields = ff_fields[0].to(self.device), dcn_fields[0].to(self.device)
-                y = self.model(ff_fields, dcn_fields)
+            for ff_fields in tqdm.tqdm(ff_dataloader, smoothing=0, mininterval=1.0):
+                ff_fields = ff_fields[0].to(self.device)
+                y = self.model(ff_fields)
                 predicts.extend(y.tolist())
-        return predicts
+        return predicts 

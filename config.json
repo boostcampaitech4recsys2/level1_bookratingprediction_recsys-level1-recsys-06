@@ -1,7 +1,7 @@
 {
     "DATA_PATH": "data/",
-    "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "FFM",
+    "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN", "FFDCN"],
+    "MODEL": "FFDCN",
     "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
@@ -24,9 +24,9 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 12,
-    "DCN_MLP_DIMS": [12, 12],
-    "DCN_DROPOUT": 0.3,
+    "DCN_EMBED_DIM": 8,
+    "DCN_MLP_DIMS": [8, 8],
+    "DCN_DROPOUT": 0.2,
     "DCN_NUM_LAYERS": 3,
 
     "CNN_FM_EMBED_DIM": 128,
