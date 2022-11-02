@@ -20,10 +20,8 @@ def context_data_load(args):
 
     ######################## DATA LOAD
     train = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
-    test = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
+    test = pd.read_csv(args.DATA_PATH + 'ksy_test_rating_fianl1.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-
-    _data = pd.concat([train, test])
     
     # others 삽입
     train, test = make_others(train, test, 'user_id', args.USER_N)
@@ -35,9 +33,14 @@ def context_data_load(args):
     train, test = make_others(train, test, 'location_country', args.COUNTRY_N)
     train, test = make_others(train, test, 'location_city', args.CITY_N)
 
+    _data = pd.concat([train, test])
+
     ### 라벨 인코딩 과정
     user2idx = {id:idx for idx, id in enumerate(_data['user_id'].unique())}
     isbn2idx = {isbn:idx for idx, isbn in enumerate(_data['isbn'].unique())}
+
+    idx2user = {idx:id for idx, id in enumerate(_data['user_id'].unique())}
+    idx2isbn = {idx:isbn for idx, isbn in enumerate(_data['isbn'].unique())}
 
     author2idx = {author:idx for idx, author in enumerate(_data['book_author'].unique())}
     publisher2idx = {publisher:idx for idx, publisher in enumerate(_data['publisher'].unique())}
@@ -86,14 +89,17 @@ def context_data_load(args):
 
     field_dims = np.array([len(user2idx), len(isbn2idx), len(author2idx),
                             len(publisher2idx), len(language2idx), len(category2idx),
-                            len(year2idx), len(location_state2idx), len(location_city2idx), 
+                            len(year2idx), len(location_city2idx), len(location_state2idx), 
                             len(location_country2idx), len(age2idx)], dtype=np.uint32)
+
 
     data = {
             'train':train,
             'test':test.drop(['rating'], axis=1),
             'field_dims':field_dims,
             'sub':sub,
+            'idx2user':idx2user,
+            'idx2isbn':idx2isbn,
             }
 
 
