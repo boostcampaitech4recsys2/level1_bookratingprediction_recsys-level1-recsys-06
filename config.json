@@ -47,16 +47,16 @@
     "USER_N": -1,
     "ISBN_N": -1,
 
-    "USER_N_D": 2,
-    "USER_N_F": 7,
+    "USER_N_D": -1,
+    "USER_N_F": -1,
     
-    "ISBN_N_D": 25,
-    "ISBN_N_F": 28,
+    "ISBN_N_D": -1,
+    "ISBN_N_F": -1,
 
-    "AUTHOR_N": 17,
-    "PUBLISH_N": 17,
-    "CATEGORY_N": 17,
-    "STATE_N": 17,
-    "COUNTRY_N": 17,
-    "CITY_N": 17
+    "AUTHOR_N": -1,
+    "PUBLISH_N": -1,
+    "CATEGORY_N": -1,
+    "STATE_N": -1,
+    "COUNTRY_N": -1,
+    "CITY_N": -1
 }

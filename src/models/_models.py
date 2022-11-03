@@ -263,8 +263,8 @@ class _FFDCNModel(nn.Module):
 
     def __init__(self, ff_field_dims: np.ndarray, ff_embed_dim: int, dcn_embed_dim: int, num_layers: int, mlp_dims: tuple, dropout: float):
         super().__init__()
-        self.ff_linear = FeaturesLinear(ff_field_dims[2:])
-        self.ffm = FieldAwareFactorizationMachine(ff_field_dims[2:], ff_embed_dim)
+        self.ff_linear = FeaturesLinear(ff_field_dims)
+        self.ffm = FieldAwareFactorizationMachine(ff_field_dims, ff_embed_dim)
         self.dcn_embedding = FeaturesEmbedding(ff_field_dims[:2], dcn_embed_dim)
         self.embed_output_dim = len(ff_field_dims[:2]) * dcn_embed_dim
         self.cn = CrossNetwork(self.embed_output_dim, num_layers)
@@ -277,8 +277,8 @@ class _FFDCNModel(nn.Module):
         :param x: Long tensor of size ``(batch_size, num_fields)``
         """
         dcnx = ffx[:,:2]
-        ffm_term = torch.sum(torch.sum(self.ffm(ffx[:,2:]), dim=1), dim=1, keepdim=True)
-        ffx = self.ff_linear(ffx[:,2:]) + ffm_term
+        ffm_term = torch.sum(torch.sum(self.ffm(ffx), dim=1), dim=1, keepdim=True)
+        ffx = self.ff_linear(ffx) + ffm_term
         embed_x = self.dcn_embedding(dcnx).view(-1, self.embed_output_dim)
         x_l1 = self.cn(embed_x)
         x_out = self.mlp(x_l1)

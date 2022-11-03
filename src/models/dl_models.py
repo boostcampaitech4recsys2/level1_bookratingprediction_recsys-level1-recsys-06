@@ -265,12 +265,12 @@ class FFDCNModel:
 
     def train(self):
       # model: type, optimizer: torch.optim, train_dataloader: DataLoader, criterion: torch.nn, device: str, log_interval: int=100
-        wandb.init(project='level1_bookratingprediction_recsys-level1-recsys-06', entity='thumbs-up')
-        wandb.config.update({
-            "batch_size" : self.args.BATCH_SIZE,
-            "epochs": self.args.EPOCHS,
-            # "optimizer": self.args.optimizer
-        })
+        # wandb.init(project='mytestproject', entity='sungsubae')
+        # wandb.config.update({
+        #     "batch_size" : self.args.BATCH_SIZE,
+        #     "epochs": self.args.EPOCHS,
+        #     # "optimizer": self.args.optimizer
+        # })
         for epoch in range(self.epochs):
             self.model.train()
             total_loss = 0
@@ -289,9 +289,9 @@ class FFDCNModel:
 
             rmse_score = self.predict_train()
             print('epoch:', epoch, 'validation: rmse:', rmse_score)
-            wandb.log({
-                'rmse_score' : rmse_score
-            })
+            # wandb.log({
+            #     'rmse_score' : rmse_score
+            # })
         #self.predict_train(True)
 
 
