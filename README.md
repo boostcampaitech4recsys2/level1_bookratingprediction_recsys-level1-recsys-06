@@ -1,8 +1,6 @@
  ![image](https://user-images.githubusercontent.com/28619804/199662224-3b4a84a3-2c5d-40fc-9ccd-513f63219573.png)
  
- # Book Rating Prediction 
- <br /> 
- ## 06 TEAM 따봉도치팀
+ # Book Rating Prediction-Recsys 06 TEAM
   
 </div>
 <br /> 
