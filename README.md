@@ -1,14 +1,21 @@
  # Book Rating Prediction 
+ <br /> 
  ## 06 TEAM 따봉도치팀
   
 </div>
-
+<br /> 
 # 🏆️ 프로젝트 목표
 <!-- <p align="center"><img src="https://user-images.githubusercontent.com/65529313/168472960-0eac76e2-4fe3-4ebc-b093-f9c0aab59859.png" /></p> -->
 - 사용자의 책 평점 데이터를 바탕으로 사용자가 어떤 책을 더 선호할지 예측하는 태스크
 
+<br /> 
+<br /> 
+
 # 💻 활용 장비
 - GPU Tesla V100-PCIE-32GB
+
+<br /> 
+<br /> 
 
 # 🙋🏻‍♂️🏻‍♀️ 프로젝트 팀 구성 및 역할
 - **김성연**: 
@@ -17,16 +24,24 @@
 - **박문순:** 
 - **배성수:** 
 
+<br /> 
+<br /> 
+
 # 🏗️ Model Architecture
 <!-- <p align="center"><img src="https://user-images.githubusercontent.com/65529313/168473170-938e1ce0-395f-40be-9118-ea127668b11d.png" /></p> -->
 
 - 범주형 데이터 처리에 좋은 성능을 내는 Catboost Model 이용
 
+<br /> 
+<br /> 
 
 # 🛠 Project Template
 <!-- <p align="center"><img src="https://user-images.githubusercontent.com/65529313/168473184-7a7a5c9b-f7da-4d92-81d8-965ecd1f934f.png" /></p> -->
 
 - 학습 환경의 경우 [pytorch-template](https://github.com/victoresque/pytorch-template)을 이용하여 이번 대회의 학습환경에 맞춰 리팩토링을 진행함
+
+<br /> 
+<br /> 
 
 # 💯 프로젝트 수행 결과 -
 <!-- <p align="center"><img src="https://user-images.githubusercontent.com/65529313/168473055-047f5162-a1f5-4c64-a5a5-275bb87aa744.png" /></p> -->
