@@ -6,15 +6,15 @@
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
-    "BATCH_SIZE": 544,
-    "EPOCHS": 5,
-    "LR": 0.001,
-    "WEIGHT_DECAY": 4.123206532618725e-06,
+    "BATCH_SIZE": 256,
+    "EPOCHS": 1,
+    "LR": 0.009975541184555565,
+    "WEIGHT_DECAY": 3.5588091978222633e-07,
     "DEVICE": "cuda",
 
     "FM_EMBED_DIM": 8,
 
-    "FFM_EMBED_DIM": 13,
+    "FFM_EMBED_DIM": 20,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],
@@ -24,12 +24,12 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 4,
-    "DCN_MLP_DIM_LAYERS": 2,
+    "DCN_EMBED_DIM": 6,
+    "DCN_MLP_DIM_LAYERS": 1,
     "DCN_MLP_DIM_NUM": 2,
-    "DCN_MLP_DIMS": [3],
-    "DCN_DROPOUT": 0.35,
-    "DCN_NUM_LAYERS": 4,
+    "DCN_MLP_DIMS": [13],
+    "DCN_DROPOUT": 0.25,
+    "DCN_NUM_LAYERS": 3,
 
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,

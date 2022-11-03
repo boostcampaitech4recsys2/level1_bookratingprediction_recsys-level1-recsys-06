@@ -137,6 +137,8 @@ def context_data_split(args, data):
                                                         random_state=args.SEED,
                                                         shuffle=True
                                                         )
+                                                        
+    print(args.SEED)
     data['X_train'], data['X_valid'], data['y_train'], data['y_valid'] = X_train, X_valid, y_train, y_valid
     return data
 
@@ -147,7 +149,7 @@ def context_data_loader(args, data):
     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
 
     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
-    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader

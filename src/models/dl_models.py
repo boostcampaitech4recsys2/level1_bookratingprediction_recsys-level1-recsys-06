@@ -250,8 +250,8 @@ class FFDCNModel:
         self.log_interval = 100
         
         self.args = args
-        # self.idx2user = dataffm['idx2user']
-        # self.idx2isbn = dataffm['idx2isbn']
+        self.idx2user = dataffm['idx2user']
+        self.idx2isbn = dataffm['idx2isbn']
 
         self.device = args.DEVICE
 
@@ -292,7 +292,7 @@ class FFDCNModel:
             # wandb.log({
             #     'rmse_score' : rmse_score
             # })
-        #self.predict_train(True)
+        self.predict_train(True)
 
 
     def predict_train(self,save=False):
@@ -317,7 +317,7 @@ class FFDCNModel:
                     'rating':predicts})
                 df_valid['user_id'] = df_valid['user_id'].map(self.idx2user)
                 df_valid['isbn'] = df_valid['isbn'].map(self.idx2isbn)
-                df_valid.sort_values(by='user_id').to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
+                #df_valid.to_csv(f'valid/valid_{self.args.MODEL}.csv',index=False)
         return rmse(targets, predicts)
 
 
