@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader, Dataset
+from sklearn.model_selection import StratifiedKFold
+
 
 
 def make_others(data_f, _column, n):
@@ -34,13 +36,13 @@ def context_data_load(args):
     test = pd.read_csv(args.DATA_PATH + 'test_ratings.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
 
-    users = make_others(users, 'location_city', args.CITY_N)
-    users = make_others(users, 'location_state', args.STATE_N)
-    users = make_others(users, 'location_country', args.COUNTRY_N)
+    users = make_others(users, 'location_city', args.OTHERS_N)
+    users = make_others(users, 'location_state', args.OTHERS_N)
+    users = make_others(users, 'location_country', args.OTHERS_N)
 
-    books = make_others(books, 'book_author', args.AUTHOR_N)
-    books = make_others(books, 'publisher', args.PUBLISH_N)
-    books = make_others(books, 'category_high', args.CATEGORY_N)
+    books = make_others(books, 'book_author', args.OTHERS_N)
+    books = make_others(books, 'publisher', args.OTHERS_N)
+    books = make_others(books, 'category_high', args.OTHERS_N)
 
     train = pd.merge(train,books, how='right',on='isbn')
     train.dropna(subset=['rating'], inplace = True)
@@ -55,8 +57,8 @@ def context_data_load(args):
     test = test.sort_values('index')
     test.drop(['index'], axis=1, inplace=True)
 
-    print(train.shape)
-    print(test.head(3))
+    # print(train.shape)
+    # print(test.head(3))
 
     # DCN과 FFM 적용시 Others를 다르게 적용해야해서
     train['user_id_D'] = train['user_id'].copy()
@@ -168,31 +170,53 @@ def context_data_split(args, data):
                                                         random_state=args.SEED,
                                                         shuffle=True
                                                         )
+
     data['X_train'], data['X_valid'], data['y_train'], data['y_valid'] = X_train, X_valid, y_train, y_valid
+
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=args.SEED)
+    folds = []
+    for train_idx, valid_idx in skf.split(data['train'].drop(['rating'], axis = 1), data['train']['rating']):
+        folds.append((train_idx,valid_idx))
+
+    for fold in range(0,5):
+        train_idx, valid_idx = folds[fold]
+        data[f'X_train{fold}'] = data['train'].drop(['rating'],axis = 1).iloc[train_idx]
+        data[f'X_valid{fold}'] = data['train'].drop(['rating'],axis = 1).iloc[valid_idx]
+        data[f'y_train{fold}'] = data['train']['rating'].iloc[train_idx]
+        data[f'y_valid{fold}'] = data['train']['rating'].iloc[valid_idx]
+
     return data
 
 # 데이터 로더
-# def context_data_loader(args, data):
-#     train_dataset = TensorDataset(torch.LongTensor(data['X_train'].values), torch.LongTensor(data['y_train'].values))
-#     valid_dataset = TensorDataset(torch.LongTensor(data['X_valid'].values), torch.LongTensor(data['y_valid'].values))
-#     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
-
-#     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
-#     valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
-#     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
-
-#     data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
-
-#     return data
-
-#valid 없이 가보자.
 def context_data_loader(args, data):
-    train_dataset = TensorDataset(torch.LongTensor(data['train'].drop(['rating'], axis=1).values), torch.LongTensor(data['train']['rating'].values))
+    train_dataset = TensorDataset(torch.LongTensor(data['X_train'].values), torch.LongTensor(data['y_train'].values))
+    valid_dataset = TensorDataset(torch.LongTensor(data['X_valid'].values), torch.LongTensor(data['y_valid'].values))
     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
 
     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+    valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
 
-    data['train_dataloader'], data['test_dataloader'] = train_dataloader, test_dataloader
+    data['train_dataloader'], data['valid_dataloader'], data['test_dataloader'] = train_dataloader, valid_dataloader, test_dataloader
+
+    for fold in range(0,5):
+        train_dataset = TensorDataset(torch.LongTensor(data[f'X_train{fold}'].values), torch.LongTensor(data[f'y_train{fold}'].values))
+        valid_dataset = TensorDataset(torch.LongTensor(data[f'X_valid{fold}'].values), torch.LongTensor(data[f'y_valid{fold}'].values))
+        train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+        valid_dataloader = DataLoader(valid_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
+        data[f'train_dataloader{fold}'], data[f'valid_dataloader{fold}'] = train_dataloader, valid_dataloader
+    
 
     return data
+
+# #valid 없이 가보자.
+# def context_data_loader(args, data):
+#     train_dataset = TensorDataset(torch.LongTensor(data['train'].drop(['rating'], axis=1).values), torch.LongTensor(data['train']['rating'].values))
+#     test_dataset = TensorDataset(torch.LongTensor(data['test'].values))
+
+#     train_dataloader = DataLoader(train_dataset, batch_size=args.BATCH_SIZE, shuffle=args.DATA_SHUFFLE)
+#     test_dataloader = DataLoader(test_dataset, batch_size=args.BATCH_SIZE, shuffle=False)
+
+#     data['train_dataloader'], data['test_dataloader'] = train_dataloader, test_dataloader
+
+#     return data

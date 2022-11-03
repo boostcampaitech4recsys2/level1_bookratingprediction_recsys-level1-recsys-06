@@ -97,7 +97,7 @@ def main(args):
     ######################## TRAIN
     print(f'--------------- {args.MODEL} TRAINING ---------------')
     # kfold 
-    model.train() # model.kfold_train()
+    model.kfold_train() # model.train()
 
     ######################## INFERENCE
     print(f'--------------- {args.MODEL} PREDICT ---------------')
@@ -156,7 +156,7 @@ if __name__ == "__main__":
     # arg('--FM_EMBED_DIM', type=int, default=16, help='FM에서 embedding시킬 차원을 조정할 수 있습니다.')
 
     ############### FFM
-    arg('--FFM_EMBED_DIM', type=int, default=4, help='FFM에서 embedding시킬 차원을 조정할 수 있습니다.')
+    arg('--FFM_EMBED_DIM', type=int, default=8, help='FFM에서 embedding시킬 차원을 조정할 수 있습니다.')
 
     ############### NCF
     # arg('--NCF_EMBED_DIM', type=int, default=16, help='NCF에서 embedding시킬 차원을 조정할 수 있습니다.')
@@ -169,12 +169,12 @@ if __name__ == "__main__":
     # arg('--WDN_DROPOUT', type=float, default=0.2, help='WDN에서 Dropout rate를 조정할 수 있습니다.')
 
     ############### DCN
-    arg('--DCN_EMBED_DIM', type=int, default=10, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
+    arg('--DCN_EMBED_DIM', type=int, default=4, help='DCN에서 embedding시킬 차원을 조정할 수 있습니다.')
     #arg('--DCN_MLP_DIMS', type=list, default=(8, 8), help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--DCN_MLP_DIM_NUM', type=int, default=11, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
+    arg('--DCN_MLP_DIM_NUM', type=int, default=2, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
     arg('--DCN_MLP_DIM_LAYERS', type=int, default=2, help='DCN에서 MLP Network의 차원을 조정할 수 있습니다.')
-    arg('--DCN_DROPOUT', type=float, default=0.35, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
-    arg('--DCN_NUM_LAYERS', type=int, default=1, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
+    arg('--DCN_DROPOUT', type=float, default=0.3, help='DCN에서 Dropout rate를 조정할 수 있습니다.')
+    arg('--DCN_NUM_LAYERS', type=int, default=4, help='DCN에서 Cross Network의 레이어 수를 조정할 수 있습니다.')
 
     ############### CNN_FM
     # arg('--CNN_FM_EMBED_DIM', type=int, default=128, help='CNN_FM에서 user와 item에 대한 embedding시킬 차원을 조정할 수 있습니다.')
@@ -194,23 +194,17 @@ if __name__ == "__main__":
     #arg('--ISBN_N', type=int, default=20, help='ISBN others 기준 N 입력')
 
     arg('--USER_N_D', type=int, default=2, help='user_id DCN 모델 others 기준 N 입력')
-    arg('--USER_N_F', type=int, default=6, help='ISBN others DCN 모델 기준 N 입력')
+    arg('--USER_N_F', type=int, default=7, help='ISBN others DCN 모델 기준 N 입력')
 
     arg('--ISBN_N_D', type=int, default=20, help='user_id FFM 모델 others 기준 N 입력')
-    arg('--ISBN_N_F', type=int, default=40, help='ISBN FFM 모델 others 기준 N 입력')
+    arg('--ISBN_N_F', type=int, default=30, help='ISBN FFM 모델 others 기준 N 입력')
 
-    arg('--AUTHOR_N', type=int, default=17, help='AUTHOR others 기준 N 입력')
-    arg('--PUBLISH_N', type=int, default=17, help='PUBLISH others 기준 N 입력')
-    arg('--CATEGORY_N', type=int, default=17, help='CATEGORY others 기준 N 입력')
-    arg('--STATE_N', type=int, default=17, help='STATE others 기준 N 입력')
-    arg('--COUNTRY_N', type=int, default=17, help='COUNTRY others 기준 N 입력')
-    arg('--CITY_N', type=int, default=17, help='CITY others 기준 N 입력')
-
+    arg('--OTHERS_N', type=int, default=15, help='변수들 others 기준 N 입력')
 
     args = parser.parse_args()
 
     args.MODEL = 'FFDCN'
-    args.EPOCHS = 7
+    args.EPOCHS = 5
     args.DEVICE = 'cuda'
     # if args.config:
     #     # config 파일에서 인자 값들을 읽어온다.
