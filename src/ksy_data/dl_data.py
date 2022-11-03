@@ -5,23 +5,32 @@ import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader, Dataset
 
+def make_others(train, test, _column, n):
+
+    tem = pd.DataFrame(train[_column].value_counts()).reset_index()
+    tem.columns = ['names','count']
+    others_list = tem[tem['count'] <= n]['names'].values  # n은 초기에 설정함. 바꿀 수 있음.
+    train.loc[train[train[_column].isin(others_list)].index, _column]= 'otehrs'
+    test.loc[test[test[_column].isin(others_list)].index, _column]= 'otehrs'
+    return train, test
+
 def dl_data_load(args):
 
     ######################## DATA LOAD
-    users = pd.read_csv(args.DATA_PATH + 'users.csv')
-    books = pd.read_csv(args.DATA_PATH + 'books.csv')
-    train = pd.read_csv(args.DATA_PATH + 'train_ratings.csv')
-    test = pd.read_csv(args.DATA_PATH + 'test_ratings.csv')
+    train = pd.read_csv(args.DATA_PATH + 'ksy_train_rating_fianl1.csv')
+    test = pd.read_csv(args.DATA_PATH + 'ksy_test_rating_fianl1.csv')
     sub = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
 
-    ids = pd.concat([train['user_id'], sub['user_id']]).unique()
-    isbns = pd.concat([train['isbn'], sub['isbn']]).unique()
+    train, test = make_others(train, test, 'user_id', args.USER_N)
+    train, test = make_others(train, test, 'isbn', args.ISBN_N)
 
-    idx2user = {idx:id for idx, id in enumerate(ids)}
-    idx2isbn = {idx:isbn for idx, isbn in enumerate(isbns)}
+    _data = pd.concat([train, test])
 
-    user2idx = {id:idx for idx, id in idx2user.items()}
-    isbn2idx = {isbn:idx for idx, isbn in idx2isbn.items()}
+    idx2user = {idx:id for idx, id in enumerate(_data['user_id'].unique())}
+    idx2isbn = {idx:isbn for idx, isbn in enumerate(_data['isbn'].unique())}
+
+    user2idx = {id:idx for idx, id in enumerate(_data['user_id'].unique())}
+    isbn2idx = {isbn:idx for idx, isbn in enumerate(_data['isbn'].unique())}
 
     train['user_id'] = train['user_id'].map(user2idx)
     sub['user_id'] = sub['user_id'].map(user2idx)
@@ -31,19 +40,20 @@ def dl_data_load(args):
     sub['isbn'] = sub['isbn'].map(isbn2idx)
     test['isbn'] = test['isbn'].map(isbn2idx)
 
+    train = train[['user_id', 'isbn', 'rating']]
+    test = test[['user_id', 'isbn', 'rating']]
+
     field_dims = np.array([len(user2idx), len(isbn2idx)], dtype=np.uint32)
 
     data = {
             'train':train,
             'test':test.drop(['rating'], axis=1),
             'field_dims':field_dims,
-            'users':users,
-            'books':books,
             'sub':sub,
-            'idx2user':idx2user,
-            'idx2isbn':idx2isbn,
             'user2idx':user2idx,
             'isbn2idx':isbn2idx,
+            'idx2user':idx2user,
+            'idx2isbn':idx2isbn,
             }
 
 

@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from ._models import RMSELoss, FeaturesEmbedding, FactorizationMachine_v
 import wandb
-
+from ._models import rmse, RMSELoss
 
 class CNN_1D(nn.Module):
     def __init__(self, word_dim, out_dim, kernel_size, conv_1d_out_dim):
@@ -117,6 +117,9 @@ class DeepCoNN:
             self.model.eval()
             val_total_loss = 0
             val_n = 0
+
+            targets, predicts = list(), list()
+
             for i, data in enumerate(self.valid_data_loader):
                 if len(data)==3:
                     fields, target = [data['user_summary_merge_vector'].to(self.device), data['item_summary_vector'].to(self.device)], data['label'].to(self.device)
@@ -129,6 +132,12 @@ class DeepCoNN:
                 self.optimizer.step()
                 val_total_loss += loss.item()
                 val_n += 1
+
+                targets.extend(target.tolist())
+                predicts.extend(y.tolist())
+
+            rmse_score = rmse(targets, predicts)
+
             if minimum_loss > (val_total_loss/val_n):
                 minimum_loss = (val_total_loss/val_n)
                 if not os.path.exists('./models'):
@@ -137,7 +146,8 @@ class DeepCoNN:
                 loss_list.append([epoch, total_loss/n, val_total_loss/val_n, 'Model saved'])
             else:
                 loss_list.append([epoch, total_loss/n, val_total_loss/val_n, 'None'])
-            wandb.log({'rmse_score' : val_total_loss/val_n})
+
+            wandb.log({'rmse_score' : rmse_score})
             tk0.set_postfix(train_loss=total_loss/n, valid_loss=val_total_loss/val_n)
 
 

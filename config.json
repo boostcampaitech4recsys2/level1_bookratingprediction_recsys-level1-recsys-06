@@ -1,20 +1,20 @@
 {
     "DATA_PATH": "data/",
-    "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN"],
-    "MODEL": "DeepCoNN",
+    "_MODEL_LIST": ["FM", "FFM", "NCF", "WDN", "DCN", "CNN_FM", "DeepCoNN", "FFDCN"],
+    "MODEL": "FFDCN",
     "DATA_SHUFFLE": true,
     "TEST_SIZE": 0.2,
     "SEED": 42,
 
     "BATCH_SIZE": 1024,
-    "EPOCHS": 20,
+    "EPOCHS": 10,
     "LR": 0.001,
     "WEIGHT_DECAY": 1e-06,
     "DEVICE": "cuda",
 
-    "FM_EMBED_DIM": 8,
+    "FM_EMBED_DIM": 3,
 
-    "FFM_EMBED_DIM": 16,
+    "FFM_EMBED_DIM": 8,
 
     "NCF_EMBED_DIM": 16,
     "NCF_MLP_DIMS": [16, 16],
@@ -24,8 +24,8 @@
     "WDN_MLP_DIMS": [16, 16],
     "WDN_DROPOUT": 0.2,
 
-    "DCN_EMBED_DIM": 16,
-    "DCN_MLP_DIMS": [16, 16],
+    "DCN_EMBED_DIM": 8,
+    "DCN_MLP_DIMS": [8, 8],
     "DCN_DROPOUT": 0.2,
     "DCN_NUM_LAYERS": 3,
 
@@ -40,6 +40,7 @@
     "DEEPCONN_WORD_DIM": 768,
     "DEEPCONN_OUT_DIM": 32,
 
+<<<<<<< HEAD
     "Wandb_name" : "DeepCoNN_Change_TestSummary_epoch20",
 
     "method": "random",
@@ -51,4 +52,7 @@
         "epochs": {"values": [5, 10, 15]},
         "lr": {"max": 0.1, "min": 0.0001}
 }
+=======
+    "Wandb_name" : "DeepCoNN_Leakage_epoch20"
+>>>>>>> master
 }

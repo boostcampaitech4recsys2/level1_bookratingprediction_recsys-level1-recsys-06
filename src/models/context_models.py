@@ -22,15 +22,15 @@ class FactorizationMachineModel:
         self.criterion = RMSELoss()
 
         # kfold에 의해서 필요 x
-        # self.train_dataloader = data['train_dataloader']
-        # self.valid_dataloader = data['valid_dataloader']
+        self.train_dataloader = data['train_dataloader']
+        self.valid_dataloader = data['valid_dataloader']
         self.field_dims = data['field_dims']
 
         self.embed_dim = args.FM_EMBED_DIM
         self.epochs = args.EPOCHS
         self.learning_rate = args.LR
         self.weight_decay = args.WEIGHT_DECAY
-        self.log_interval = 100
+        self.log_interval = 100 
         self.args = args
         self.config = args.config
         self.device = args.DEVICE
@@ -39,8 +39,8 @@ class FactorizationMachineModel:
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=self.learning_rate, amsgrad=True, weight_decay=self.weight_decay)
 
         self.seed = args.SEED
-        self.trainx = data['train_X']
-        self.trainy = data['train_y']
+        # self.trainx = data['train_X']
+        # self.trainy = data['train_y']
         self.batchsize = args.BATCH_SIZE
 
     def train(self):
@@ -129,12 +129,11 @@ class FactorizationMachineModel:
         
             
     # rmse 계산
-    def predict_train(self, val):
+    def predict_train(self):
         self.model.eval()
         targets, predicts = list(), list()
-        
         with torch.no_grad():
-            for fields, target in tqdm.tqdm(val, smoothing=0, mininterval=1.0):
+            for fields, target in tqdm.tqdm(self.valid_dataloader, smoothing=0, mininterval=1.0):
                 fields, target = fields.to(self.device), target.to(self.device)
                 y = self.model(fields)
                 targets.extend(target.tolist())
@@ -164,6 +163,9 @@ class FactorizationMachineModel:
                 predicts.extend(y.tolist())
         return predicts
 
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 class FieldAwareFactorizationMachineModel:
 
