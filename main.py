@@ -108,14 +108,14 @@ def main(args):
     elif args.MODEL=='DeepCoNN':
         predicts  = model.predict(data['test_dataloader'])
     elif args.MODEL == 'FFDCN':
-        predicts = model.predict(data['test_dataloader'])
+        #predicts = model.predict(data['test_dataloader'])
     else:
         pass
 
     ####################### SAVE PREDICT
     print(f'--------------- SAVE {args.MODEL} PREDICT ---------------')
     submission = pd.read_csv(args.DATA_PATH + 'sample_submission.csv')
-    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN', 'FFDCN'):
+    if args.MODEL in ('FM', 'FFM', 'NCF', 'WDN', 'DCN', 'CNN_FM', 'DeepCoNN'): # 'FFDCN'
         submission['rating'] = predicts
     else:
         pass

@@ -13,7 +13,7 @@ def make_others(data_f, _column, n):
     tem = pd.DataFrame(data_f[_column].value_counts()).reset_index()
     tem.columns = ['names','count']
     others_list = tem[tem['count'] <= n]['names'].values  # n은 초기에 설정함. 바꿀 수 있음.
-    data_f.loc[data_f[data_f[_column].isin(others_list)].index, _column]= 'otehrs'
+    data_f.loc[data_f[data_f[_column].isin(others_list)].index, _column]= 'others'
     return data_f
 
 
@@ -22,8 +22,8 @@ def make_others2(train, test, _column, n):
     tem = pd.DataFrame(train[_column].value_counts()).reset_index()
     tem.columns = ['names','count']
     others_list = tem[tem['count'] <= n]['names'].values  # n은 초기에 설정함. 바꿀 수 있음.
-    train.loc[train[train[_column].isin(others_list)].index, _column]= 'otehrs'
-    test.loc[test[test[_column].isin(others_list)].index, _column]= 'otehrs'
+    train.loc[train[train[_column].isin(others_list)].index, _column]= 'others'
+    test.loc[test[test[_column].isin(others_list)].index, _column]= 'others'
     return train, test
 
 # 전처리된 데이터 로드
