@@ -6,6 +6,7 @@ submit/
 data/images
 data/text_vector
 EDA/catboost_info
+catboost_info/
 
 # C extensions
 *.so
