@@ -12,17 +12,7 @@
     "WEIGHT_DECAY": 3.5588091978222633e-07,
     "DEVICE": "cuda",
 
-    "FM_EMBED_DIM": 8,
-
     "FFM_EMBED_DIM": 20,
-
-    "NCF_EMBED_DIM": 16,
-    "NCF_MLP_DIMS": [16, 16],
-    "NCF_DROPOUT": 0.2,
-
-    "WDN_EMBED_DIM": 16,
-    "WDN_MLP_DIMS": [16, 16],
-    "WDN_DROPOUT": 0.2,
 
     "DCN_EMBED_DIM": 6,
     "DCN_MLP_DIM_LAYERS": 1,
@@ -34,15 +24,7 @@
     "CNN_FM_EMBED_DIM": 128,
     "CNN_FM_LATENT_DIM": 8,
 
-    "DEEPCONN_VECTOR_CREATE": true,
-    "DEEPCONN_EMBED_DIM": 32,
-    "DEEPCONN_LATENT_DIM": 10,
-    "DEEPCONN_CONV_1D_OUT_DIM": 50,
-    "DEEPCONN_KERNEL_SIZE": 3,
-    "DEEPCONN_WORD_DIM": 16,
-    "DEEPCONN_OUT_DIM": 32,
-
-    "Wandb_name" : "BSS_FFDCN_1",
+    "Wandb_name" : "FFDCN_final",
 
     "USER_N": -1,
     "ISBN_N": -1,
