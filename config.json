@@ -22,20 +22,4 @@
     "DCN_NUM_LAYERS": 3,
 
     "Wandb_name" : "FFDCN_final",
-
-    "USER_N": -1,
-    "ISBN_N": -1,
-
-    "USER_N_D": -1,
-    "USER_N_F": -1,
-    
-    "ISBN_N_D": -1,
-    "ISBN_N_F": -1,
-
-    "AUTHOR_N": -1,
-    "PUBLISH_N": -1,
-    "CATEGORY_N": -1,
-    "STATE_N": -1,
-    "COUNTRY_N": -1,
-    "CITY_N": -1
 }
