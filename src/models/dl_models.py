@@ -292,7 +292,7 @@ class FFDCNModel:
             # wandb.log({
             #     'rmse_score' : rmse_score
             # })
-        self.predict_train(True)
+        #self.predict_train(True)
 
 
     def predict_train(self,save=False):
