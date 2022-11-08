@@ -54,4 +54,7 @@
 ![image](https://user-images.githubusercontent.com/28619804/199737010-460bcab6-a537-4b5b-b2b8-cb65100e91da.png)
 
 
-
+# 모델 실행 순서
+1) FFDCN.ipynb 파일 실행 => submit/FFDCN.csv 파일 생성
+2) CatBoost.ipynb 파일 실행 => submit/CatBost.csv 파일 생성
+3) Ensemble.ipynb 파일 실행 => submit/Ensemble.csv 파일 생성
