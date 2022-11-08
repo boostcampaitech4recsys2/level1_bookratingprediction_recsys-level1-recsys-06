@@ -21,9 +21,6 @@
     "DCN_DROPOUT": 0.25,
     "DCN_NUM_LAYERS": 3,
 
-    "CNN_FM_EMBED_DIM": 128,
-    "CNN_FM_LATENT_DIM": 8,
-
     "Wandb_name" : "FFDCN_final",
 
     "USER_N": -1,
