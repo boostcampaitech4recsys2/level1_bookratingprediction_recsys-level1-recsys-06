@@ -24,7 +24,7 @@ def main(args):
         result = en.mixed()
     elif args.ENSEMBLE_STRATEGY == 'COLD':
         strategy_title = args.ENSEMBLE_STRATEGY.lower() #mixed
-        result = en.cold_condition(0)
+        result = en.cold_condition(1)
 
     else:
         pass
@@ -32,7 +32,7 @@ def main(args):
     output = en.output_frame.copy()
     files_title = '-'.join(file_list)
     output = output.astype({'user_id':int})
-    output.to_csv(f'{args.RESULT_PATH}{files_title}-{strategy_title}.csv',index=False)
+    output.to_csv(f'{args.RESULT_PATH}2{files_title}-{strategy_title}.csv',index=False)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='parser')
