@@ -118,3 +118,5 @@ valid/
 .vscode/
 .idea/
 __MACOSX/
+
+*.pth
