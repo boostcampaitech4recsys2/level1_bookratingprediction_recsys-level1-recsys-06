@@ -7,7 +7,7 @@
 
 # 팀원 소개
 
-| <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/94108712/207613142-1c44bb87-f685-4b25-be16-efd06f8793ba.jpg" width=200> | <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://avatars.githubusercontent.com/u/28619804?v=4" width="200px"> |
+| <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/94108712/207613142-1c44bb87-f685-4b25-be16-efd06f8793ba.jpg" width=200> | <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/22442453/208286371-7e029cce-af2b-4cc2-89c5-851db98b7d19.jpg" width=200> | <img src="https://avatars.githubusercontent.com/u/28619804?v=4" width="200px"> |
 | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: |
 |                                           [김성연](https://github.com/KSY1526)                                            |                                           [김찬호](https://github.com/KChanho)                                            |                                            [박문순](https://github.com/hxcva1)                                            |                                         [배성수](https://github.com/sungsubae)                                          |                                            [이지훈](https://github.com/JJI-Hoon)                                            |
 
@@ -28,7 +28,7 @@
 - **김성연**: 팀의 방향성 설정 및 아이디어 제공, 데이터 EDA 진행, DeepCoNN 모델 실험해보기
 - **김찬호**: 노션을 활용해 팀원의 진행과정 기록하기, TabNet 모델 실험해보기
 - **박문순**: 깃허브 전반적인 버전 관리, FM, FFM 모델 실험해보기 
-- **배성수**: FFM+DCN 모델 구현하고 고도화 하기, Cold-Start 관련 분석해보기
+- **배성수**: FFM+DCN 모델 구현 및 고도화 하기, Cold-Start 관련 분석해보기
 - **이지훈**: 부스팅 기반 모델 실험해보기, K-fold 및 Wandb와 Optuna 등을 사용해 모델 고도화 하기 
 
 
