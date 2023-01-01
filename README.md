@@ -7,7 +7,7 @@
 
 # 팀원 소개
 
-| <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/94108712/207613142-1c44bb87-f685-4b25-be16-efd06f8793ba.jpg" width=200> | <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/22442453/208286371-7e029cce-af2b-4cc2-89c5-851db98b7d19.jpg" width=200> | <img src="https://avatars.githubusercontent.com/u/28619804?v=4" width="200px"> |
+| <img src="https://user-images.githubusercontent.com/79916736/207600031-b46e76d2-cba3-4c94-9fc3-d9f29cd3bef8.png" width=200> | <img src="https://user-images.githubusercontent.com/94108712/207613142-1c44bb87-f685-4b25-be16-efd06f8793ba.jpg" width=200> | <img src="https://user-images.githubusercontent.com/79916736/210170572-5323396d-2c7b-4160-8aca-9d274bfdc833.jpg" width=200> | <img src="https://user-images.githubusercontent.com/22442453/208286371-7e029cce-af2b-4cc2-89c5-851db98b7d19.jpg" width=200> | <img src="https://avatars.githubusercontent.com/u/28619804?v=4" width="200px"> |
 | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: |
 |                                           [김성연](https://github.com/KSY1526)                                            |                                           [김찬호](https://github.com/KChanho)                                            |                                            [박문순](https://github.com/hxcva1)                                            |                                         [배성수](https://github.com/sungsubae)                                          |                                            [이지훈](https://github.com/JJI-Hoon)                                            |
 
@@ -65,3 +65,5 @@
 1) FFDCN.ipynb 파일 실행 => submit/FFDCN.csv 파일 생성
 2) CatBoost.ipynb 파일 실행 => submit/CatBost.csv 파일 생성
 3) Ensemble.ipynb 파일 실행 => submit/Ensemble.csv 파일 생성
+
+상세한 프로젝트 내용은 발표자료 및 레포트를 참고해주세요!
